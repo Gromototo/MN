@@ -19,3 +19,6 @@ clean:
 	rm -f *.o *~ test_abr
 
 
+pile_test.o: pile_test.c
+	gcc -Wall -c pile_test.c
+
