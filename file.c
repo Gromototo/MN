@@ -7,12 +7,11 @@ pfile_t creer_file ()
 {
   pfile_t file = (pfile_t)malloc(sizeof(file_t));
   if (file == NULL) {
-    // Handle memory allocation failure
     exit(EXIT_FAILURE);
   }
 
-  file->tete = -1;
-  file->queue = -1;
+  file->tete = 0;
+  file->queue = 0;
   return file;
 }
 
@@ -22,22 +21,27 @@ int detruire_file (pfile_t f)
   return 1;
 }
 
-
-
 int file_vide (pfile_t f)
 {
- if (f->queue == f->tete-1){
+ if (f->queue == f->tete){
   return 1;
  }
   return 0 ;
 }
 
 int file_pleine (pfile_t f)
-  {
-  if (f->queue == f->tete+1){
+{
+  if(f->tete==0){
+    if (f->queue==MAX_FILE_SIZE-1){
+      return 1;
+    }
+    return 0;
+  }
+  if (f->queue == f->tete-1){
     return 1;
   }
-  return 0 ;
+  return 0;
+
 }
 
 pnoeud_t defiler (pfile_t f)
@@ -61,8 +65,8 @@ int enfiler (pfile_t f, pnoeud_t p)
     return -1;
   }
   if(f->queue!=MAX_FILE_SIZE-1){
-    f->queue++;
     f->Tab[f->queue]=p;
+    f->queue++;
     return f->queue;
   }
   else{
