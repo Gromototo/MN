@@ -5,6 +5,7 @@
 #include "pile.h"
 #include "file.h"
 #include <stdbool.h>
+#include <math.h>
 
 #define max(a,b) ((a)>(b)?(a):(b))
 
@@ -386,17 +387,70 @@ int arbre_plein (Arbre_t a)
     return 0;
   }
 
-  
+  int h = hauteur_arbre_r(a);
+  int nb_noeud = nombre_cles_arbre_r(a);
+
+  return nb_noeud == (pow(2,h+1)-1);
+}
+
+int check_parfait(pfile_t file,pfile_t n_file, pnoeud_t noeud){
+  while(!file_vide(file)){
+    pnoeud_t n_noeud  = defiler(file);
+    if (n_noeud->fgauche==NULL || n_noeud->fdroite==NULL){
+      return 0;
+    }
+  }
+  file = n_file;
+  while(!file_vide(file)){
+    pnoeud_t n_noeud  = defiler(file);
+    if (!feuille(n_noeud)){
+      return 0;
+    }
+  }
   return 1;
 }
 
 int arbre_parfait (Arbre_t a)
 {
-  /*
-    a completer
-  */
+  pfile_t file = creer_file();
   
-  return 0 ;
+
+  if (a == NULL) {
+    return 0;
+  }
+  
+  enfiler(file, a);
+  
+  while (!file_vide(file)) {
+    pfile_t n_file = creer_file();
+
+    while(!file_vide(file)) {
+    
+      pnoeud_t noeud  = defiler(file);
+      if (noeud->fgauche==NULL || noeud->fdroite==NULL){
+        if (noeud->fgauche==NULL && noeud->fdroite!=NULL){
+          return 0;
+        }
+        return check_parfait(file,n_file,noeud);
+      }
+
+      if (noeud->fgauche != NULL) {
+        enfiler(n_file, noeud->fgauche);
+      }
+
+      if (noeud->fdroite != NULL) {
+        enfiler(n_file, noeud->fdroite);
+      }
+
+
+      printf("%d \n", (int) noeud->cle);
+    }
+    /*fin de niveau*/
+    file = n_file;
+  }
+  
+  printf("Ce cas n'est pas censé arriver !\n");
+  return 0;
 }
 
 

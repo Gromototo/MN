@@ -38,4 +38,6 @@ int main (int argc, char**argv)
   printf("liste clefs triées :\n");
   imprimer_liste_cle_triee_nr(a);
 
+  printf("Arbre plein ? %d\n", arbre_plein(a));
+  printf("Arbre parfait ? %d\n", arbre_parfait(a));
 }
