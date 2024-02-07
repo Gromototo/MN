@@ -17,7 +17,25 @@ int main (int argc, char**argv)
   
   afficher_arbre (a,0) ;
 
-  printf("%d", hauteur_arbre_r(a));
+  
+
+  printf("hauteur_arbre_r : %d \n", hauteur_arbre_r(a));
+  printf("hauteur_arbre_nr: %d \n\n", hauteur_arbre_nr(a));
 
   parcourir_arbre_largeur(a);
+
+  printf("nombre cles arbres : %d \n", nombre_cles_arbre_r(a));
+  printf("nombre cles arbres nr : %d \n", nombre_cles_arbre_nr(a));
+  printf("cle minimum dans arbre : %d\n", trouver_cle_min(a));
+   
+
+  afficher_nombre_noeuds_par_niveau(a);
+
+
+  printf("liste clefs triées :\n");
+  imprimer_liste_cle_triee_r(a);
+
+  printf("liste clefs triées :\n");
+  imprimer_liste_cle_triee_nr(a);
+
 }

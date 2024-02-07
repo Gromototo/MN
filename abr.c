@@ -4,7 +4,7 @@
 #include "abr.h"
 #include "pile.h"
 #include "file.h"
-
+#include <stdbool.h>
 
 #define max(a,b) ((a)>(b)?(a):(b))
 
@@ -126,7 +126,7 @@ void afficher_arbre (Arbre_t a, int niveau)
 int hauteur_arbre_r (Arbre_t a)
 {
   if (feuille(a)) {
-    return 1;
+    return 0;
   }
   
   int lcounter = 0;
@@ -143,23 +143,25 @@ int hauteur_arbre_r (Arbre_t a)
 
 int hauteur_arbre_nr (Arbre_t a)
 {
-  int out = 1;
-  pfile_t file = creer_file();
-  
-  pfile_t n_file = creer_file();
 
+  int hauteur=-1;
+  
+  pfile_t file = creer_file();
 
   if (a == NULL) {
-    return 0 ;
+    return -1;
   }
   
   enfiler(file, a);
   
   while (!file_vide(file)) {
-    while(!file_vide(file)) {
-    
-      pnoeud_t noeud  = defiler(file);
+    pfile_t n_file = creer_file();
 
+    hauteur++;
+
+    while(!file_vide(file)) {
+
+      pnoeud_t noeud  = defiler(file);
       if (noeud->fgauche != NULL) {
         enfiler(n_file, noeud->fgauche);
       }
@@ -167,12 +169,13 @@ int hauteur_arbre_nr (Arbre_t a)
       if (noeud->fdroite != NULL) {
         enfiler(n_file, noeud->fdroite);
       }
-  }
-    out++;
-    file = n_file;
 
-} 
-  return out;
+
+    }
+    file = n_file;
+  }
+  
+  return hauteur;
 }
 
 
@@ -180,8 +183,6 @@ void parcourir_arbre_largeur (Arbre_t a)
 {
   pfile_t file = creer_file();
   
-  pfile_t n_file = creer_file();
-
 
   if (a == NULL) {
     return ;
@@ -190,6 +191,8 @@ void parcourir_arbre_largeur (Arbre_t a)
   enfiler(file, a);
   
   while (!file_vide(file)) {
+    pfile_t n_file = creer_file();
+
     while(!file_vide(file)) {
     
       pnoeud_t noeud  = defiler(file);
@@ -203,8 +206,8 @@ void parcourir_arbre_largeur (Arbre_t a)
       }
 
 
-      printf("%s \n", (int) noeud);
-  }
+      printf("%d \n", (int) noeud->cle);
+    }
     file = n_file;
   }
   
@@ -213,21 +216,27 @@ void parcourir_arbre_largeur (Arbre_t a)
 
 void afficher_nombre_noeuds_par_niveau (Arbre_t a)
 {
+
+  int nb_noeud = 0;
+  int num_niveau = 0;
   pfile_t file = creer_file();
   
-  pfile_t n_file = creer_file();
 
 
   if (a == NULL) {
+    printf("Arbre null dans afficher_nombre_noeuds_par_niveau !\n");
     return ;
   }
   
   enfiler(file, a);
   
   while (!file_vide(file)) {
+    pfile_t n_file = creer_file();
+
     while(!file_vide(file)) {
     
       pnoeud_t noeud  = defiler(file);
+      nb_noeud++;
 
       if (noeud->fgauche != NULL) {
         enfiler(n_file, noeud->fgauche);
@@ -236,10 +245,10 @@ void afficher_nombre_noeuds_par_niveau (Arbre_t a)
       if (noeud->fdroite != NULL) {
         enfiler(n_file, noeud->fdroite);
       }
-
-
-      printf("%s", noeud);
-  }
+    }
+    printf("Au niveau %d, il y a %d noeuds\n",num_niveau,nb_noeud);
+    nb_noeud=0;
+    num_niveau++;
     file = n_file;
   }
   
@@ -249,58 +258,136 @@ void afficher_nombre_noeuds_par_niveau (Arbre_t a)
 
 int nombre_cles_arbre_r (Arbre_t a)
 {
-  /*
-    a completer
-  */
-  
-  return 0 ;
+
+  if (a==NULL){
+    return 0;
+  }
+
+  if (feuille(a)){
+    return 1;
+  }
+
+  return ( 1 + nombre_cles_arbre_r(a->fdroite) + nombre_cles_arbre_r (a->fgauche));
 }
 
 int nombre_cles_arbre_nr (Arbre_t a)
 {
-  /*
-    a completer
-  */
+  int nb_cle=0;
   
-  return 0 ;
+  pfile_t file = creer_file();
+  pfile_t n_file = creer_file();
+  
+  enfiler(file, a);
+  
+  while (!file_vide(file)) {
+    while(!file_vide(file)) {
+      nb_cle++;
+      pnoeud_t noeud  = defiler(file);
+
+      if (noeud->fgauche != NULL) {
+        enfiler(n_file, noeud->fgauche);
+      }
+
+      if (noeud->fdroite != NULL) {
+        enfiler(n_file, noeud->fdroite);
+      }
+
+    }
+    file = n_file;
+  }
+  
+  return nb_cle;
 }
 
 int trouver_cle_min (Arbre_t a)
 {
-  
-  return 0 ; 
+  int min = 0;
+  if (a == NULL){
+    return min;
+  }
+  while (a-> fgauche != NULL){
+    a = a->fgauche;
+  }
+  min = a->cle;
+  return min ;
 }
 
  
 
 void imprimer_liste_cle_triee_r (Arbre_t a)
 {
-  /*
-    a completer
-  */
-
   
-  return ;
+  if (feuille(a)) {
+    printf("%d\n", a->cle);
+    return;}
+  
+  if (a->fgauche != NULL) {
+    imprimer_liste_cle_triee_r(a->fgauche);
+  }
+
+  printf("%d\n", a->cle);
+  
+  if (a->fdroite!= NULL) {
+    imprimer_liste_cle_triee_r(a->fdroite);
+  } 
+
+  return;
 }
 
 void imprimer_liste_cle_triee_nr (Arbre_t a)
 {
-  /*
-    a completer
-  */
 
   
-  return ;
+  pfile_t file = creer_file();
+
+  enfiler(file, a);
+
+  while(!file_vide(file)) {
+    pfile_t n_file = creer_file();
+    bool found_arbre = false;
+
+    while(!file_vide(file)){
+      
+      noeud_t* noeud  = defiler(file);
+
+      if(feuille(noeud) && !found_arbre){
+        printf("%d\n", noeud->cle);
+      }
+      else {
+
+        if(noeud->fgauche != NULL){
+          enfiler(n_file, noeud->fgauche);
+        }
+        
+        pnoeud_t feuille_noeud;
+        feuille_noeud->cle = noeud->cle;
+        enfiler(n_file, feuille_noeud);
+
+
+        if(noeud->fdroite != NULL){
+          enfiler(n_file, noeud->fdroite);
+        }
+
+        found_arbre = true;
+      }
+
+    }
+
+    file = n_file;
+  }
+
+
 }
 
 
 int arbre_plein (Arbre_t a)
 {
-  /*
-    a completer
-  */
+  if (a == NULL){
+    return 0;
+  }
+
   
-  return 0 ;
+  return 1;
 }
 
 int arbre_parfait (Arbre_t a)
