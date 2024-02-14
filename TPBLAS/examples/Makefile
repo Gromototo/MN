@@ -4,7 +4,7 @@ INC_DIR=../include
 
 LIB_DIR=../lib
 
-LIBST=-lmnblas
+LIBST=#-lmnblas
 LIBDYN=-lmnblasdyn
 
 OPTIONS_COMPIL  =-Wall -O2 -fPIC -I$(INC_DIR)
@@ -25,7 +25,7 @@ test_dot.o: test_dot.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_dot.c
 
 test_complexe.o: test_complexe.c  $(INC_DIR)/complexe.h
-	gcc $(OPTIONS_COMPIL) -c test_complexe.c
+	gcc $(OPTIONS_COMPIL) -c test_complexe.c 
 
 test_complexe: test_complexe.o flop.o
 	gcc -o test_complexe test_complexe.o flop.o $(OPTIONS_LINK_STATIC)

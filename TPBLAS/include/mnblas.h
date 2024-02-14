@@ -47,11 +47,11 @@ void mncblas_sswap(const int N, float *X, const int incX,
 void mncblas_dswap(const int N, double *X, const int incX, 
                  double *Y, const int incY);
 
-void mncblas_cswap(const int N, void *X, const int incX, 
-                 void *Y, const int incY);
+void mncblas_cswap(const int N, complexe_float_t *X, const int incX, 
+                 complexe_float_t *Y, const int incY);
 
-void mncblas_zswap(const int N, void *X, const int incX, 
-                 void *Y, const int incY);
+void mncblas_zswap(const int N, complexe_double_t *X, const int incX, 
+                 complexe_double_t *Y, const int incY);
 
 /*
   END SWAP

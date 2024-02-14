@@ -20,14 +20,14 @@ void mncblas_dcopy(const int N, const double *X, const int incX,
 
 }
 
-void mncblas_ccopy(const int N, const void *X, const int incX, 
-		                    void *Y, const int incY)
+void mncblas_ccopy(const int N, const complexe_float_t *X, const int incX, 
+		                    complexe_float_t *Y, const int incY)
 {
 
 }
 
-void mncblas_zcopy(const int N, const void *X, const int incX, 
-		                    void *Y, const int incY)
+void mncblas_zcopy(const int N, const complexe_double_t *X, const int incX, 
+		                    complexe_double_t *Y, const int incY)
 {
 
 }
