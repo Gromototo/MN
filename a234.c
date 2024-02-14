@@ -27,45 +27,106 @@ int hauteur (Arbre234 a)
 
 int NombreCles (Arbre234 a)
 {
-  /*
-     Retourne le nombre de cles presentes dans l'arbre a
-  */
+  int counter = 0;
+
+  if (a->t==0 || a == NULL){
+    return 0;
+  }
+  else{
+    counter += a->t -1;
+  }
+
+
+  for (int i=0; i<4; i++){
+    if (a->fils[i]!=NULL){
+      counter += NombreCles(a->fils[i]);
+    }
+  }
   
-  return 0 ;
+  return counter;
 }
 
 int CleMax (Arbre234 a)
 {
-  /*
-     plus grande cle de l'arbre a
-  */
-  
-  return 0 ;
+  noeud234 node_parcours = *a;  
+
+  if (a==NULL){
+    return -1;
+  }
+
+  int max =-1;
+
+  if (node_parcours.t==0){
+    printf("l'arbre est seulement une feuille !\n");
+    exit(-1);
+  }
+  else{
+    max = node_parcours.cles[node_parcours.t-1];
+  }
+  while ( (node_parcours.fils[node_parcours.t-1])->t!=0 ){
+    node_parcours = *(node_parcours.fils[node_parcours.t-1]);
+  }
+  max = node_parcours.cles[node_parcours.t-1];
+  return max;
 }
 
 int CleMin (Arbre234 a)
 {
-  /*
-     Retourne plus petite cle de l'arbre a
-  */
+  noeud234 node_parcours = *a;  
 
-  return 0 ;
+  if (a==NULL){
+    return -1;
+  }
+
+  int min =-1;
+
+  if (node_parcours.t==0){
+    printf("l'arbre est seulement une feuille !\n");
+    exit(-1);
+  }
+  else{
+    min = node_parcours.cles[0];
+  }
+  while ( (node_parcours.fils[0])->t!=0 ){
+    node_parcours = *(node_parcours.fils[0]);
+    printf("Ce message devrait s'afficher 2 fois\n");
+  }
+  printf("check 2 !\n");
+  min = node_parcours.cles[0];
+  return min;
 }
 
 Arbre234 RechercherCle (Arbre234 a, int cle)
 {
-  /*
-     rechercher si la cle a est presente dans
-     l'arbre a. Si oui, retourne le noeud ou se trouve la cle.
-  */
+  noeud234 node_parcours = *a;  
 
-  return NULL ;
+  if (a==NULL){
+    return NULL;
+  }
+  if (node_parcours.t==0){
+    printf("l'arbre est seulement une feuille !\n");
+    exit(-1);
+  }
+  while(node_parcours.t!=0){
+    for (int i=0; i<node_parcours.t-1; i++){
+      if(node_parcours.cles[i]==cle){
+        return &node_parcours;
+      }
+      if (cle<node_parcours.cles[i]){
+        node_parcours=*node_parcours.fils[i];
+        break;
+      }
+    }
+    node_parcours=*node_parcours.fils[node_parcours.t-1];
+  }
+  return NULL;
 }
 
 void AnalyseStructureArbre (Arbre234 a, int *feuilles, int *noeud2, int *noeud3, int *noeud4)
 {
   /* 
      calculer le nombre de feuilles, de 2-noeuds, 3-noeuds,et 4-noeuds
+     Je suis entrain de la faire (Julian)
   */
 }
 
@@ -136,5 +197,15 @@ int main (int argc, char **argv)
   printf ("==== Afficher arbre ====\n") ;
   
   afficher_arbre (a, 0) ;
+
+  printf ("==== Nombre Cles ====\n") ;
+
+  printf("%d \n", NombreCles(a));
+
+  printf ("==== Cles MIN MAX ====\n") ;
+
+  printf("Cle min : %d\n", CleMin(a));
+
+  printf("Cle max : %d\n", CleMax(a));
 
 }
