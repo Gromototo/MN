@@ -20,6 +20,24 @@ complexe_double_t add_complexe_double (const complexe_double_t c1, const complex
   return r ;
 }
 
+complexe_float_t sub_complexe_float(const complexe_float_t c1, const complexe_float_t c2){
+
+    complexe_float_t r;
+    r.real = c1.real-c2.real;
+    r.imaginary = c1.imaginary-c2.imaginary;
+
+    return r;
+}
+
+complexe_double_t sub_complexe_double(const complexe_double_t c1, const complexe_double_t c2){
+    complexe_double_t r;
+    r.real = c1.real-c2.real;
+    r.imaginary = c1.imaginary-c2.imaginary;
+
+    return r;
+}
+
+
 complexe_float_t mult_complexe_float (const complexe_float_t c1, const complexe_float_t c2)
 {
   complexe_float_t r ;
@@ -62,4 +80,18 @@ complexe_double_t div_complexe_double (const complexe_double_t c1, const complex
   r.imaginary = 0.0 ;
   
   return r ;
+}
+
+complexe_float_t conjugate_complexe_float (const complexe_float_t c1){
+    complexe_float_t r;
+    r.real = c1.real;
+    r.imaginary = -c1.imaginary;
+    return r;
+}
+
+complexe_double_t conjugate_complexe_double (const complexe_double_t c1){
+    complexe_double_t r;
+    r.real = c1.real;
+    r.imaginary = -c1.imaginary;
+    return r;
 }

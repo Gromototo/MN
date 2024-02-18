@@ -25,12 +25,12 @@ void mncblas_dcopy(const int N, const double *X, const int incX,
                  double *Y, const int incY);
 
 
-void mncblas_ccopy(const int N, const void *X, const int incX, 
-                 void *Y, const int incY);
+void mncblas_ccopy(const int N, const complexe_float_t  *X, const int incX, 
+                 complexe_float_t  *Y, const int incY);
 
 
-void mncblas_zcopy(const int N, const void *X, const int incX, 
-                 void *Y, const int incY);
+void mncblas_zcopy(const int N, const complexe_double_t *X, const int incX, 
+                 complexe_double_t *Y, const int incY);
 
 
 /*
@@ -70,17 +70,17 @@ float  mncblas_sdot(const int N, const float  *X, const int incX,
 double mncblas_ddot(const int N, const double *X, const int incX,
                   const double *Y, const int incY);
 
-void   mncblas_cdotu_sub(const int N, const void *X, const int incX,
-                       const void *Y, const int incY, void *dotu);
+complexe_float_t    mncblas_cdotu_sub(const int N, const complexe_float_t *X, const int incX,
+                       const complexe_float_t *Y, const int incY, void *dotu);
 
-void   mncblas_cdotc_sub(const int N, const void *X, const int incX,
-                       const void *Y, const int incY, void *dotc);
+complexe_float_t   mncblas_cdotc_sub(const int N, const complexe_float_t *X, const int incX,
+                       const complexe_float_t *Y, const int incY, void *dotc);
 
-void   mncblas_zdotu_sub(const int N, const void *X, const int incX,
-                       const void *Y, const int incY, void *dotu);
+complexe_double_t    mncblas_zdotu_sub(const int N, const complexe_double_t *X, const int incX,
+                       const complexe_double_t *Y, const int incY, void *dotu);
 
-void   mncblas_zdotc_sub(const int N, const void *X, const int incX,
-                       const void *Y, const int incY, void *dotc);
+complexe_double_t    mncblas_zdotc_sub(const int N, const complexe_double_t *X, const int incX,
+                       const complexe_double_t *Y, const int incY, void *dotc);
 
 /*
   END BLAS DOT

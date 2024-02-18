@@ -1,4 +1,5 @@
 #include "mnblas.h"
+#include "complexe.h"
 #include <stdio.h>
 
 /*
@@ -38,43 +39,85 @@ float mncblas_sdot(const int N, const float *X, const int incX,
 double mncblas_ddot(const int N, const double *X, const int incX, 
                  const double *Y, const int incY)
 {
-  /*
-     a completer
-  */
+ register unsigned int i = 0 ;
+  register unsigned int j = 0 ;
+  float dot = 0.0 ;
+
+  
+  for (i = 0 ; i < N ; i += incX)
+    {
+      dot += X [i] * Y [j] ;
+      j+=incY ;
+    }
+
+  return dot ;
   
   return 0.0;
 }
 
-void   mncblas_cdotu_sub(const int N, const void *X, const int incX,
-                       const void *Y, const int incY, void *dotu)
+complexe_float_t mncblas_cdotu_sub(const int N, const complexe_float_t  *X, const int incX,
+                       const complexe_float_t *Y, const int incY, void *dotu)
 {
-  /* a completer */
+ register unsigned int i = 0 ;
+  register unsigned int j = 0 ;
+  complexe_float_t dot = {0.0,0.0} ;
   
-  return ;
+  for (i = 0 ; i < N ; i += incX)
+    {
+      dot = sub_complexe_float(dot,mult_complexe_float(X[i],Y[j]));
+      j+=incY ;
+    }
+
+  return dot ;
 }
 
-void   mncblas_cdotc_sub(const int N, const void *X, const int incX,
-                       const void *Y, const int incY, void *dotc)
+complexe_float_t  mncblas_cdotc_sub(const int N, const complexe_float_t *X, const int incX,
+                       const complexe_float_t *Y, const int incY, void *dotc)
 {
-  /* a completer */
+ register unsigned int i = 0 ;
+  register unsigned int j = 0 ;
+  complexe_float_t dot = {0.0,0.0} ;
   
-  return ;
+  for (i = 0 ; i < N ; i += incX)
+    {
+      dot = sub_complexe_float(dot,mult_complexe_float(conjugate_complexe_float(X[i]),Y[j]));
+      j+=incY ;
+    }
+
+  return dot ;
 }
 
-void   mncblas_zdotu_sub(const int N, const void *X, const int incX,
-                       const void *Y, const int incY, void *dotu)
+complexe_double_t mncblas_zdotu_sub(const int N, const complexe_double_t *X, const int incX,
+                       const complexe_double_t *Y, const int incY, void *dotu)
 {
-  /* a completer */
+   register unsigned int i = 0 ;
+  register unsigned int j = 0 ;
+  complexe_double_t dot = {0.0,0.0} ;
   
-  return ;
+  for (i = 0 ; i < N ; i += incX)
+    {
+      dot = sub_complexe_double(dot,mult_complexe_double(X[i],Y[j]));
+      j+=incY ;
+    }
+
+  return dot ;
+
 }
   
-void   mncblas_zdotc_sub(const int N, const void *X, const int incX,
-                       const void *Y, const int incY, void *dotc)
+complexe_double_t mncblas_zdotc_sub(const int N, const complexe_double_t *X, const int incX,
+                       const complexe_double_t *Y, const int incY, void *dotc)
 {
-  /* a completer */
+  register unsigned int i = 0 ;
+  register unsigned int j = 0 ;
+  complexe_double_t dot = {0.0,0.0} ;
   
-  return ;
+  for (i = 0 ; i < N ; i += incX)
+    {
+      dot = sub_complexe_double(dot,mult_complexe_double(conjugate_complexe_double(X[i]),Y[j]));
+      j+=incY ;
+    }
+
+  return dot ;
 }
 
 
