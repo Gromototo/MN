@@ -75,29 +75,29 @@ int LastFilsIndex(int nodetype) {
   };
 };
 
-int CleMax (Arbre234 a)
+Arbre234 noeud_max (Arbre234 a)
 {
-
   Arbre234 node_parcours = a;  
 
   if (a==NULL){
-    return -1;
+    return a;
   }
-
-  int max =-1;
-
-  if (node_parcours->t==0){
-    printf("l'arbre est seulement une feuille !\n");
-    exit(-1);
-  }
-  else{
-    max = node_parcours->cles[node_parcours->t-1];
-  }
-
 
   while (node_parcours->fils[LastFilsIndex(node_parcours->t)]->t != 0){
         node_parcours = node_parcours->fils[LastFilsIndex(node_parcours->t)];
   }
+
+
+  return node_parcours;
+}
+
+
+
+int CleMax (Arbre234 a)
+{
+  int max;
+  Arbre234 node_parcours = noeud_max(a);
+
 
 
 
@@ -195,22 +195,14 @@ void AnalyseStructureArbre (Arbre234 a, int *feuilles, int *noeud2, int *noeud3,
   */
 }
 
-Arbre234 noeud_max (Arbre234 a)
-{
-  /*
-    Retourne le noeud avec la somme maximale des cles internes
-  */
-  
-  return NULL ;
-}
+
 
 
 void Afficher_Cles_Largeur (Arbre234 a)
 {
-  /*
-    Afficher le cles de l'arbre a avec
-    un parcours en largeur
-  */
+
+
+
 
   return ;
 }
@@ -221,6 +213,42 @@ void Affichage_Cles_Triees_Recursive (Arbre234 a)
      Afficher les cles en ordre croissant
      Cette fonction sera recursive
   */
+
+  if (a == NULL){
+    return;
+  }
+
+  //printf("\ntype : %d\n", a->t);
+  switch (a->t) {
+
+    case 2 :
+      Affichage_Cles_Triees_Recursive(a->fils[1]);
+      printf("%d, ", a->cles[1]);
+      Affichage_Cles_Triees_Recursive(a->fils[2]);
+      break;
+
+    case 3 :
+
+      Affichage_Cles_Triees_Recursive(a->fils[0]);
+      printf("%d, ", a->cles[0]);
+      Affichage_Cles_Triees_Recursive(a->fils[1]);
+      printf("%d, ", a->cles[1]);
+      Affichage_Cles_Triees_Recursive(a->fils[2]);
+      break;
+
+    case 4 :
+      Affichage_Cles_Triees_Recursive(a->fils[0]);
+      printf("%d, ", a->cles[0]);
+      Affichage_Cles_Triees_Recursive(a->fils[1]);
+      printf("%d, ", a->cles[1]);
+      Affichage_Cles_Triees_Recursive(a->fils[2]);
+      printf("%d, ", a->cles[2]);
+      Affichage_Cles_Triees_Recursive(a->fils[3]);
+      break;
+
+  }
+
+  return;
      
 }
 
@@ -272,6 +300,28 @@ int main (int argc, char **argv)
   printf("Cle max : %d\n", CleMax(a));
 
   printf("Cle min : %d\n", CleMin(a));
+
+  
+  printf ("==== Noeud Max ====\n") ;
+
+  printf("Noeud max : \n");
+  Arbre234 nm = noeud_max(a);
+  for (int cle = 0; cle<3; cle++){
+    printf("      %d\n", nm->cles[cle]);
+  }
+
+  printf ("==== Afficahge Clefs Triées ====\n") ;
+
+  Affichage_Cles_Triees_Recursive(a);
+  printf("\n");
+  printf ("==== Recherche Cle ====\n") ;
+
+  int CLEF = 30;
+  printf("Noeud trouvé : \n");
+  printf("      %d\n", RechercherCle(a, CLEF)->cles[0]);
+  printf("      %d\n", RechercherCle(a, CLEF)->cles[1]);
+  printf("      %d\n", RechercherCle(a, CLEF)->cles[2]);
+
 
 
 }
