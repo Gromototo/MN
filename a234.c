@@ -66,9 +66,19 @@ int NombreCles (Arbre234 a)
   return counter;
 }
 
+int LastFilsIndex(int nodetype) {
+  switch (nodetype) {
+      case 2:
+          return 2;
+      default :
+        return nodetype-1;
+  };
+};
+
 int CleMax (Arbre234 a)
 {
-  noeud234 node_parcours = *a;  
+
+  Arbre234 node_parcours = a;  
 
   if (a==NULL){
     return -1;
@@ -76,17 +86,41 @@ int CleMax (Arbre234 a)
 
   int max =-1;
 
-  if (node_parcours.t==0){
+  if (node_parcours->t==0){
     printf("l'arbre est seulement une feuille !\n");
     exit(-1);
   }
   else{
-    max = node_parcours.cles[node_parcours.t-1];
+    max = node_parcours->cles[node_parcours->t-1];
   }
-  while ( (node_parcours.fils[node_parcours.t-1])->t!=0 ){
-    node_parcours = *(node_parcours.fils[node_parcours.t-1]);
+
+  printf("node_parcours->t = %d\n", node_parcours->t);
+
+  for (int i = 0; i < 4; i++){
+    printf("node_parcours->fils[%d] = %d\n", i, node_parcours->fils[i]);
+  
   }
-  max = node_parcours.cles[node_parcours.t-1];
+
+  while (node_parcours->fils[LastFilsIndex(node_parcours->t)]->t != 0){
+        node_parcours = node_parcours->fils[LastFilsIndex(node_parcours->t)];
+  }
+
+
+
+  switch ( node_parcours->t )
+  {
+      case 2:
+        max = node_parcours->cles[1];
+        break;
+      case 3:
+        max = node_parcours->cles[1];
+        break;
+      case 4:
+        max = node_parcours->cles[2];
+        break;
+  }
+
+
   return max;
 }
 
@@ -222,10 +256,11 @@ int main (int argc, char **argv)
 
   printf("%d \n", NombreCles(a));
 
-  printf ("==== Cles MIN MAX ====\n") ;
+  printf ("==== Cles MAX MIN ====\n") ;
+
+  printf("Cle max : %d\n", CleMax(a));
 
   printf("Cle min : %d\n", CleMin(a));
 
-  printf("Cle max : %d\n", CleMax(a));
 
 }
