@@ -90,7 +90,7 @@ complexe_double_t    mncblas_zdotc_sub(const int N, const complexe_double_t *X, 
   BLAS AXPY
 */
 
-/*
+
 
 void mnblas_saxpy(const int N, const float alpha, const float *X,
                  const int incX, float *Y, const int incY);
@@ -98,25 +98,22 @@ void mnblas_saxpy(const int N, const float alpha, const float *X,
 void mnblas_daxpy(const int N, const double alpha, const double *X,
                  const int incX, double *Y, const int incY);
 
-void mnblas_caxpy(const int N, const void *alpha, const void *X,
-                 const int incX, void *Y, const int incY);
+void mnblas_caxpy(const int N, const complexe_float_t alpha, const complexe_float_t *X,
+                 const int incX, complexe_float_t *Y, const int incY);
 
-void mnblas_zaxpy(const int N, const void *alpha, const void *X,
-                 const int incX, void *Y, const int incY);
+void mnblas_zaxpy(const int N, const complexe_double_t alpha, const complexe_double_t *X,
+                 const int incX, complexe_double_t *Y, const int incY);
 
-*/
 
-/*
 
 float  mnblas_sasum(const int N, const float *X, const int incX);
 
 double mnblas_dasum(const int N, const double *X, const int incX);
 
-float  mnblas_scasum(const int N, const void *X, const int incX);
+float  mnblas_scasum(const int N, const complexe_float_t *X, const int incX);
 
-double mnblas_dzasum(const int N, const void *X, const int incX);
+double mnblas_dzasum(const int N, const complexe_double_t *X, const int incX);
 
-*/
 
 /*
 CBLAS_INDEX mnblas_isamax(const int N, const float  *X, const int incX);

@@ -52,7 +52,6 @@ double mncblas_ddot(const int N, const double *X, const int incX,
 
   return dot ;
   
-  return 0.0;
 }
 
 complexe_float_t mncblas_cdotu_sub(const int N, const complexe_float_t  *X, const int incX,
