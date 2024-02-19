@@ -94,12 +94,6 @@ int CleMax (Arbre234 a)
     max = node_parcours->cles[node_parcours->t-1];
   }
 
-  printf("node_parcours->t = %d\n", node_parcours->t);
-
-  for (int i = 0; i < 4; i++){
-    printf("node_parcours->fils[%d] = %d\n", i, node_parcours->fils[i]);
-  
-  }
 
   while (node_parcours->fils[LastFilsIndex(node_parcours->t)]->t != 0){
         node_parcours = node_parcours->fils[LastFilsIndex(node_parcours->t)];
@@ -124,9 +118,18 @@ int CleMax (Arbre234 a)
   return max;
 }
 
+int FirstFilsIndex(int nodetype) {
+  switch (nodetype) {
+      case 2:
+          return 1;
+      default :
+        return 0;
+  };
+};
+
 int CleMin (Arbre234 a)
 {
-  noeud234 node_parcours = *a;  
+   Arbre234 node_parcours = a;  
 
   if (a==NULL){
     return -1;
@@ -134,19 +137,27 @@ int CleMin (Arbre234 a)
 
   int min =-1;
 
-  if (node_parcours.t==0){
+  if (node_parcours->t==0){
     printf("l'arbre est seulement une feuille !\n");
     exit(-1);
   }
   else{
-    min = node_parcours.cles[0];
+    min = node_parcours->cles[node_parcours->t-1];
   }
-  while ( (node_parcours.fils[0])->t!=0 ){
-    node_parcours = *(node_parcours.fils[0]);
-    printf("Ce message devrait s'afficher 2 fois\n");
+
+  while (node_parcours->fils[FirstFilsIndex(node_parcours->t)]->t != 0){
+      node_parcours = node_parcours->fils[FirstFilsIndex(node_parcours->t)];
   }
-  printf("check 2 !\n");
-  min = node_parcours.cles[0];
+
+
+  if (node_parcours->t == 2){
+    min = node_parcours->cles[1];
+  }
+  else {
+    min = node_parcours->cles[0];
+
+  }
+
   return min;
 }
 
