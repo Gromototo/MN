@@ -36,12 +36,32 @@ int NombreCles (Arbre234 a)
     counter += a->t -1;
   }
 
-
-  for (int i=0; i<4; i++){
-    if (a->fils[i]!=NULL){
-      counter += NombreCles(a->fils[i]);
-    }
+  if (a->t == 0){
   }
+  else if (a->t == 2){
+    counter += NombreCles(a->fils[1]);
+    counter += NombreCles(a->fils[2]);
+    
+
+  }
+  else if (a->t == 3){
+
+    counter += NombreCles(a->fils[0]);
+    counter += NombreCles(a->fils[1]);
+    counter += NombreCles(a->fils[2]);
+
+
+  }
+  else if (a->t == 4){
+
+    counter += NombreCles(a->fils[0]);
+    counter += NombreCles(a->fils[1]);
+    counter += NombreCles(a->fils[2]);
+    counter += NombreCles(a->fils[3]);
+
+
+  }
+
   
   return counter;
 }
