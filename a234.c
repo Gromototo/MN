@@ -189,10 +189,37 @@ Arbre234 RechercherCle (Arbre234 a, int cle)
 
 void AnalyseStructureArbre (Arbre234 a, int *feuilles, int *noeud2, int *noeud3, int *noeud4)
 {
-  /* 
-     calculer le nombre de feuilles, de 2-noeuds, 3-noeuds,et 4-noeuds
-     Je suis entrain de la faire (Julian)
-  */
+  switch (a->t) {
+    case 0 :
+      *feuilles += 1;
+
+      break;
+    case 2 :
+      *noeud2 += 1;
+
+      AnalyseStructureArbre(a->fils[1], feuilles, noeud2, noeud3, noeud4);
+      AnalyseStructureArbre(a->fils[2], feuilles, noeud2, noeud3, noeud4);
+
+      break;
+    case 3 :
+      *noeud3 += 1;
+
+      AnalyseStructureArbre(a->fils[0], feuilles, noeud2, noeud3, noeud4);
+      AnalyseStructureArbre(a->fils[1], feuilles, noeud2, noeud3, noeud4);
+      AnalyseStructureArbre(a->fils[2], feuilles, noeud2, noeud3, noeud4);
+
+      break;
+    case 4 :
+      *noeud4 += 1;
+
+      AnalyseStructureArbre(a->fils[0], feuilles, noeud2, noeud3, noeud4);
+      AnalyseStructureArbre(a->fils[1], feuilles, noeud2, noeud3, noeud4);
+      AnalyseStructureArbre(a->fils[2], feuilles, noeud2, noeud3, noeud4);
+      AnalyseStructureArbre(a->fils[3], feuilles, noeud2, noeud3, noeud4);
+
+
+      break;
+  }
 }
 
 
@@ -200,7 +227,45 @@ void AnalyseStructureArbre (Arbre234 a, int *feuilles, int *noeud2, int *noeud3,
 
 void Afficher_Cles_Largeur (Arbre234 a)
 {
+  /* 
+     Afficher les cles en ordre croissant
+     Cette fonction sera recursive
+  */
 
+  if (a == NULL){
+    return;
+  }
+
+  switch (a->t) {
+
+    case 2 :
+      printf("%d, ", a->cles[1]);
+      Affichage_Cles_Triees_Recursive(a->fils[1]);
+      Affichage_Cles_Triees_Recursive(a->fils[2]);
+      break;
+
+    case 3 :
+
+      Affichage_Cles_Triees_Recursive(a->fils[0]);
+      printf("%d, ", a->cles[0]);
+      Affichage_Cles_Triees_Recursive(a->fils[1]);
+      printf("%d, ", a->cles[1]);
+      Affichage_Cles_Triees_Recursive(a->fils[2]);
+      break;
+
+    case 4 :
+      Affichage_Cles_Triees_Recursive(a->fils[0]);
+      printf("%d, ", a->cles[0]);
+      Affichage_Cles_Triees_Recursive(a->fils[1]);
+      printf("%d, ", a->cles[1]);
+      Affichage_Cles_Triees_Recursive(a->fils[2]);
+      printf("%d, ", a->cles[2]);
+      Affichage_Cles_Triees_Recursive(a->fils[3]);
+      break;
+
+  }
+
+  return;
 
 
 
@@ -218,7 +283,6 @@ void Affichage_Cles_Triees_Recursive (Arbre234 a)
     return;
   }
 
-  //printf("\ntype : %d\n", a->t);
   switch (a->t) {
 
     case 2 :
@@ -314,6 +378,19 @@ int main (int argc, char **argv)
 
   Affichage_Cles_Triees_Recursive(a);
   printf("\n");
+
+  printf ("==== Afficahge Analyse Arbre ====\n") ;
+
+  int feuilles = 0;
+  int noeud2 = 0;
+  int noeud3 = 0;
+  int noeud4 = 0;
+  AnalyseStructureArbre(a, &feuilles, &noeud2,  &noeud3,  &noeud4);
+  printf("Feuilles : %d\n", feuilles);
+  printf("Noeud 2 : %d\n", noeud2);
+  printf("Noeud 3 : %d\n", noeud3);
+  printf("Noeud 4 : %d\n", noeud4);
+
   printf ("==== Recherche Cle ====\n") ;
 
   int CLEF = 30;
