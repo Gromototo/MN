@@ -1,4 +1,5 @@
-#include "complexe.h"
+#include "../../include/complexe.h"
+#include <math.h>
 
 complexe_float_t add_complexe_float (const complexe_float_t c1, const complexe_float_t c2)
 {
@@ -94,4 +95,16 @@ complexe_double_t conjugate_complexe_double (const complexe_double_t c1){
     r.real = c1.real;
     r.imaginary = -c1.imaginary;
     return r;
+}
+
+float module_float (const complexe_float_t c1){
+
+    return (float) sqrt((double) c1.real*c1.real + c1.imaginary*c1.imaginary);
+
+}
+
+double module_double (const complexe_double_t c1)
+{
+        return sqrt(c1.real*c1.real + c1.imaginary*c1.imaginary);
+
 }

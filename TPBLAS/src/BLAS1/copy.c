@@ -1,5 +1,5 @@
-#include "mnblas.h"
-#include "complexe.h"
+#include "../../include/mnblas.h"
+#include "../../include/complexe.h"
 
 void mncblas_scopy(const int N, const float *X, const int incX, 
                  float *Y, const int incY)

@@ -105,7 +105,12 @@ void mnblas_zaxpy(const int N, const complexe_double_t alpha, const complexe_dou
                  const int incX, complexe_double_t *Y, const int incY);
 
 
-
+/*
+  END BLAS AXPY
+*/
+/*
+  BLAS ASUM
+*/
 float  mnblas_sasum(const int N, const float *X, const int incX);
 
 double mnblas_dasum(const int N, const double *X, const int incX);
@@ -114,15 +119,22 @@ float  mnblas_scasum(const int N, const complexe_float_t *X, const int incX);
 
 double mnblas_dzasum(const int N, const complexe_double_t *X, const int incX);
 
-
 /*
+  END BLAS ASUM
+*/
+/*
+  BLAS ISAMAX
+*/
 CBLAS_INDEX mnblas_isamax(const int N, const float  *X, const int incX);
 
 CBLAS_INDEX mnblas_idamax(const int N, const double *X, const int incX);
 
-CBLAS_INDEX mnblas_icamax(const int N, const void   *X, const int incX);
+CBLAS_INDEX mnblas_icamax(const int N, const complexe_float_t  *X, const int incX);
 
-CBLAS_INDEX mnblas_izamax(const int N, const void   *X, const int incX);
+CBLAS_INDEX mnblas_izamax(const int N, const complexe_double_t  *X, const int incX);
+
+/*
+  END BLAS ISAMAX
 */
 
 /*

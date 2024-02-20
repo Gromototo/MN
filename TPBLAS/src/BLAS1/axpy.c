@@ -1,5 +1,5 @@
-#include "mnblas.h"
-#include "complexe.h"
+#include "../../include/mnblas.h"
+#include "../../include/complexe.h"
 
 void mnblas_saxpy(const int N, const float alpha, const float *X,
                  const int incX, float *Y, const int incY)

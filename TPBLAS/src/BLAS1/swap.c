@@ -1,5 +1,5 @@
-#include "mnblas.h"
-#include "complexe.h"
+#include "../../include/mnblas.h"
+#include "../../include/complexe.h"
 
 void mncblas_sswap(const int N, float *X, const int incX, 
                  float *Y, const int incY)
