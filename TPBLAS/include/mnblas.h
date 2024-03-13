@@ -1,3 +1,7 @@
+#include "complexe.h"
+#include "complexe2.h"
+#include <stddef.h>
+
 #define CBLAS_INDEX size_t  /* this may vary between platforms */
 
 typedef enum {MNCblasRowMajor=101, MNCblasColMajor=102} MNCBLAS_LAYOUT;
@@ -70,17 +74,17 @@ float  mncblas_sdot(const int N, const float  *X, const int incX,
 double mncblas_ddot(const int N, const double *X, const int incX,
                   const double *Y, const int incY);
 
-complexe_float_t    mncblas_cdotu_sub(const int N, const complexe_float_t *X, const int incX,
-                       const complexe_float_t *Y, const int incY, void *dotu);
+void    mncblas_cdotu_sub(const int N, const void *X, const int incX,
+                       const void *Y, const int incY, void *dotu);
 
-complexe_float_t   mncblas_cdotc_sub(const int N, const complexe_float_t *X, const int incX,
-                       const complexe_float_t *Y, const int incY, void *dotc);
+void  mncblas_cdotc_sub(const int N, const void *X, const int incX,
+                       const void *Y, const int incY, void *dotc);
 
-complexe_double_t    mncblas_zdotu_sub(const int N, const complexe_double_t *X, const int incX,
-                       const complexe_double_t *Y, const int incY, void *dotu);
+void    mncblas_zdotu_sub(const int N, const void *X, const int incX,
+                       const void *Y, const int incY, void *dotu);
 
-complexe_double_t    mncblas_zdotc_sub(const int N, const complexe_double_t *X, const int incX,
-                       const complexe_double_t *Y, const int incY, void *dotc);
+void    mncblas_zdotc_sub(const int N, const void *X, const int incX,
+                       const void *Y, const int incY, void *dotc);
 
 /*
   END BLAS DOT
@@ -163,7 +167,7 @@ double mnblas_dznrm2(const int N, const void *X, const int incX);
  * ===========================================================================
  */
 
-/*
+
 
 void mncblas_sgemv(const MNCBLAS_LAYOUT layout,
                  const MNCBLAS_TRANSPOSE TransA, const int M, const int N,
@@ -189,7 +193,7 @@ void mncblas_zgemv(MNCBLAS_LAYOUT layout,
                  const void *X, const int incX, const void *beta,
                  void *Y, const int incY);
 
-*/
+
 
 /*
  * ===========================================================================
@@ -197,15 +201,16 @@ void mncblas_zgemv(MNCBLAS_LAYOUT layout,
  * ===========================================================================
  */
 
-/*
+
 
 void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                  MNCBLAS_TRANSPOSE TransB, const int M, const int N,
                  const int K, const float alpha, const float *A,
                  const int lda, const float *B, const int ldb,
                  const float beta, float *C, const int ldc);
+                 
 
-void mncblas_dgemm(MNCBLAS_LAYOUT layout, CBLAS_TRANSPOSE TransA,
+void mncblas_dgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                  MNCBLAS_TRANSPOSE TransB, const int M, const int N,
                  const int K, const double alpha, const double *A,
                  const int lda, const double *B, const int ldb,
@@ -217,11 +222,12 @@ void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                  const int lda, const void *B, const int ldb,
                  const void *beta, void *C, const int ldc);
 
+
 void mncblas_zgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                  MNCBLAS_TRANSPOSE TransB, const int M, const int N,
                  const int K, const void *alpha, const void *A,
                  const int lda, const void *B, const int ldb,
                  const void *beta, void *C, const int ldc);
 
-*/
+
 

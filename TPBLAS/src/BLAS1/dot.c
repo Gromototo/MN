@@ -1,23 +1,5 @@
 #include "../../include/mnblas.h"
-#include "../../include/complexe.h"
 #include <stdio.h>
-
-/*
-float mncblas_sdot(const int N, const float *X, const int incX, 
-                 const float *Y, const int incY)
-{
-  register unsigned int i = 0 ;
-  register unsigned int j = 0 ;
-  register float dot = 0.0 ;
-  
-  for (; ((i < N) && (j < N)) ; i += incX, j+=incY)
-    {
-      dot = dot + X [i] * Y [j] ;
-    }
-
-  return dot ;
-}
-*/
 
 float mncblas_sdot(const int N, const float *X, const int incX, 
                  const float *Y, const int incY)
@@ -54,69 +36,66 @@ double mncblas_ddot(const int N, const double *X, const int incX,
   
 }
 
-complexe_float_t mncblas_cdotu_sub(const int N, const complexe_float_t  *X, const int incX,
-                       const complexe_float_t *Y, const int incY, void *dotu)
+void mncblas_cdotu_sub(const int N, const void  *X, const int incX,
+                       const void *Y, const int incY, void *dotu)
 {
  register unsigned int i = 0 ;
-  register unsigned int j = 0 ;
-  complexe_float_t dot = {0.0,0.0} ;
+ register unsigned int j = 0 ;
   
   for (i = 0 ; i < N ; i += incX)
     {
-      dot = sub_complexe_float(dot,mult_complexe_float(X[i],Y[j]));
+      complexe_float_t tmp = mult_complexe_float( ((complexe_float_t*)X)[i],((complexe_float_t*)Y)[j] );
+      ((complexe_float_t*)dotu)->real += tmp.real;
+      ((complexe_float_t*)dotu)->imaginary += tmp.imaginary;
       j+=incY ;
     }
-
-  return dot ;
 }
 
-complexe_float_t  mncblas_cdotc_sub(const int N, const complexe_float_t *X, const int incX,
-                       const complexe_float_t *Y, const int incY, void *dotc)
+void  mncblas_cdotc_sub(const int N, const void *X, const int incX,
+                       const void *Y, const int incY, void *dotc)
 {
  register unsigned int i = 0 ;
   register unsigned int j = 0 ;
-  complexe_float_t dot = {0.0,0.0} ;
   
   for (i = 0 ; i < N ; i += incX)
     {
-      dot = sub_complexe_float(dot,mult_complexe_float(conjugate_complexe_float(X[i]),Y[j]));
+      const complexe_float_t tmp = mult_complexe_float(((complexe_float_t*)X)[i],((complexe_float_t*)Y)[j]);
+      complexe_float_t tmp2 = conjugate_complexe_float(tmp);
+      ((complexe_float_t*)dotc)->real += tmp2.real;
+      ((complexe_float_t*)dotc)->imaginary += tmp2.imaginary;
       j+=incY ;
     }
-
-  return dot ;
 }
 
-complexe_double_t mncblas_zdotu_sub(const int N, const complexe_double_t *X, const int incX,
-                       const complexe_double_t *Y, const int incY, void *dotu)
+void mncblas_zdotu_sub(const int N, const void *X, const int incX,
+                       const void *Y, const int incY, void *dotu)
 {
    register unsigned int i = 0 ;
   register unsigned int j = 0 ;
-  complexe_double_t dot = {0.0,0.0} ;
   
   for (i = 0 ; i < N ; i += incX)
     {
-      dot = sub_complexe_double(dot,mult_complexe_double(X[i],Y[j]));
+      complexe_double_t tmp = mult_complexe_double( ((complexe_double_t*)X)[i],((complexe_double_t*)Y)[j] );
+      ((complexe_double_t*)dotu)->real += tmp.real;
+      ((complexe_double_t*)dotu)->imaginary += tmp.imaginary;
       j+=incY ;
     }
-
-  return dot ;
-
 }
   
-complexe_double_t mncblas_zdotc_sub(const int N, const complexe_double_t *X, const int incX,
-                       const complexe_double_t *Y, const int incY, void *dotc)
+void mncblas_zdotc_sub(const int N, const void *X, const int incX,
+                       const void *Y, const int incY, void *dotc)
 {
   register unsigned int i = 0 ;
   register unsigned int j = 0 ;
-  complexe_double_t dot = {0.0,0.0} ;
   
   for (i = 0 ; i < N ; i += incX)
     {
-      dot = sub_complexe_double(dot,mult_complexe_double(conjugate_complexe_double(X[i]),Y[j]));
+      const complexe_double_t tmp = mult_complexe_double(((complexe_double_t*)X)[i],((complexe_double_t*)Y)[j]);
+      complexe_double_t tmp2 = conjugate_complexe_double(tmp);
+      ((complexe_double_t*)dotc)->real += tmp2.real;
+      ((complexe_double_t*)dotc)->imaginary += tmp2.imaginary;
       j+=incY ;
     }
-
-  return dot ;
 }
 
 

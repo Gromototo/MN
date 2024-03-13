@@ -1,13 +1,4 @@
 
-typedef struct {
-  float real ;
-  float imaginary ;
-} complexe_float_t ;
-
-typedef struct {
-  double real ;
-  double imaginary ;
-} complexe_double_t ;
 
 inline complexe_float_t add_complexe_float (const complexe_float_t c1, const complexe_float_t c2)
 {
