@@ -1,3 +1,4 @@
+#include <stdbool.h>
 
 typedef struct a *parc_t ;
 
@@ -12,6 +13,10 @@ typedef struct s
   parc_t     liste_arcs ; // arcs sortants du sommet
   struct s   *sommet_suivant ; // sommet suivant dans le graphe
   int        couleur ; // couleur du sommet
+  
+  int        poids_dijkstra ;
+  int nb_arcs_entrants;
+
 } sommet_t, *psommet_t ;
 
 /*
@@ -25,6 +30,7 @@ typedef struct a {
                   int         poids ; // poids de l arc
                   psommet_t   dest ;  // pointeur sommet destinataire
                   struct a *  arc_suivant ; // arc suivant
+                  bool traite ;       //true si arc deja explorés, false sinon
   
 } arc_t, *parc_t ;
 
@@ -57,3 +63,8 @@ void afficher_graphe_profondeur (pgraphe_t g, int r) ;
 void afficher_graphe_largeur (pgraphe_t g, int r) ;
 
 void algo_dijkstra (pgraphe_t g, int r) ;
+
+
+
+bool deja_visite(int s_label, int* visites, int last_label_index);
+int visiter(int label, int* visites, int last_label_index);

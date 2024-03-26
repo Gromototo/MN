@@ -1,7 +1,10 @@
 all: test_graphe
 
-test_graphe: test_graphe.o graphe.o io_graphe.o
-	gcc -o test_graphe test_graphe.o graphe.o io_graphe.o
+file.o: file.h file.c
+	gcc -Wall -c file.c
+	
+test_graphe: test_graphe.o graphe.o io_graphe.o file.o
+	gcc -o test_graphe test_graphe.o graphe.o io_graphe.o  file.o
 
 graphe.o: graphe.c graphe.h
 	gcc -Wall -c graphe.c

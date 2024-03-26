@@ -9,7 +9,35 @@
 #include <stdlib.h>
 #include <limits.h>
 
-#include "graphe.h"
+#include "file.h"
+#include <stdbool.h>
+
+
+
+
+bool deja_visite(int s_label, int* visites, int last_label_index) {
+
+  for (int i = 0; i <= last_label_index; i++){
+
+    int label = visites[i];
+
+    if(s_label == label){
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+int visiter(int label, int* visites, int last_label_index) {
+    
+  if (!deja_visite(label, visites, last_label_index)){
+    visites[last_label_index+1] = label;
+    last_label_index ++;
+  }
+
+  return last_label_index;
+}
 
 
 psommet_t chercher_sommet (pgraphe_t g, int label)
@@ -147,10 +175,10 @@ int colorier_graphe (pgraphe_t g)
 	  while (a != NULL)
 	    {
 	      if (a->dest->couleur == couleur)
-		{
-		  couleur = couleur + 1 ;
-		  change = 1 ;
-		} 
+          {
+            couleur = couleur + 1 ;
+            change = 1 ;
+          } 
 	      a = a->arc_suivant ; 
 	    }
 
@@ -158,9 +186,9 @@ int colorier_graphe (pgraphe_t g)
 
       // couleur du sommet est differente des couleurs de tous les voisins
       
-      p->couleur = couleur ;
-      if (couleur > max_couleur)
-	max_couleur = couleur ;
+  p->couleur = couleur ;
+  if (couleur > max_couleur)
+	    max_couleur = couleur ;
 
       p = p->sommet_suivant ;
     }
@@ -173,9 +201,38 @@ void afficher_graphe_largeur (pgraphe_t g, int r)
   /*
     afficher les sommets du graphe avec un parcours en largeur
   */
+
+  int visites[1000];
+  int last_label_index = -1;
+  
+  pfile_t q = creer_file();
+  enfiler(q, g);
+
+  while (!file_vide(q)){
+    psommet_t s = defiler(q);
+
+
+    if (!deja_visite(s->label, visites, last_label_index)){
+      
+      last_label_index = visiter(s->label, visites, last_label_index);
+      
+      parc_t a = s->liste_arcs;
+
+      while (a != NULL){
+
+        if (!deja_visite(a->dest->label, visites, last_label_index)){
+          enfiler(q, a->dest);
+        }
+        a = a->arc_suivant;
+      }
+      printf("SOMMET %d \n", s->label);
+
+    }
+  }
   
   return ;
 }
+
 
 
 void afficher_graphe_profondeur (pgraphe_t g, int r)
@@ -184,8 +241,16 @@ void afficher_graphe_profondeur (pgraphe_t g, int r)
     afficher les sommets du graphe avec un parcours en profondeur
   */
   
+  //psommet_t s = chercher_sommet(g,r);
+  
+  
+  
+  
+  
   return ;
 }
+
+
 
 void algo_dijkstra (pgraphe_t g, int r)
 {
@@ -213,7 +278,17 @@ int degre_sortant_sommet (pgraphe_t g, psommet_t s)
     du sommet n dans le graphe g
   */ 
 
-  return 0 ;
+  parc_t arc = chercher_sommet(g, s->label)->liste_arcs;
+
+
+  int compteur = 0;
+
+  while (arc != NULL){
+    compteur++;
+    arc = arc->arc_suivant;
+  }
+
+  return compteur ;
 }
 
 int degre_entrant_sommet (pgraphe_t g, psommet_t s)
@@ -223,7 +298,21 @@ int degre_entrant_sommet (pgraphe_t g, psommet_t s)
     dans le noeud n dans le graphe g
   */ 
 
-  return 0 ;
+  psommet_t s_courant = g;
+
+  while (s_courant != NULL){
+
+    parc_t arc_courant = s_courant->liste_arcs;
+    while (arc_courant != NULL) {
+      arc_courant->dest->nb_arcs_entrants++;
+      arc_courant = arc_courant->arc_suivant; 
+    }
+
+    s_courant = s_courant->sommet_suivant;
+  }
+
+
+  return chercher_sommet(g, s->label)->nb_arcs_entrants;
 }
 
 int degre_maximal_graphe (pgraphe_t g)
@@ -232,7 +321,21 @@ int degre_maximal_graphe (pgraphe_t g)
     Max des degres des sommets du graphe g
   */
 
-  return 0 ;
+  psommet_t s_courant = g;
+
+  int max = g->nb_arcs_entrants;
+  while (s_courant != NULL){
+
+    int nb_arcs_entrants = degre_entrant_sommet(g, s_courant);
+
+    if (nb_arcs_entrants > max){
+      max = nb_arcs_entrants;
+    }
+    
+    s_courant = s_courant->sommet_suivant;
+  }
+
+  return max ;
 }
 
 
@@ -241,8 +344,21 @@ int degre_minimal_graphe (pgraphe_t g)
   /*
     Min des degres des sommets du graphe g
   */
+  psommet_t s_courant = g;
 
-  return 0 ;
+  int min = g->nb_arcs_entrants;
+  while (s_courant != NULL){
+
+    int nb_arcs_entrants = degre_entrant_sommet(g, s_courant);
+
+    if (nb_arcs_entrants < min){
+      min = nb_arcs_entrants;
+    }
+    
+    s_courant = s_courant->sommet_suivant;
+  }
+
+  return min ;
 }
 
 
@@ -250,7 +366,8 @@ int independant (pgraphe_t g)
 {
   /* Les aretes du graphe n'ont pas de sommet en commun */
 
-  return 0 ;
+
+  return (degre_maximal_graphe(g) <=1) ;
 }
 
 
@@ -259,7 +376,7 @@ int complet (pgraphe_t g)
 {
   /* Toutes les paires de sommet du graphe sont jointes par un arc */
 
-  return 0 ;
+  return (degre_minimal_graphe(g) >=1) ;
 }
 
 int regulier (pgraphe_t g)

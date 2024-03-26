@@ -36,4 +36,17 @@ int main (int argc, char **argv)
   printf ("nombre chromatique graphe = %d\n", nc) ;
 
   ecrire_graphe_colorie (g) ;
+
+  int visites[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int last_index = -1;
+
+  last_index = visiter(2, visites, last_index);
+  printf("deja visité ? %d \n", deja_visite(2, visites, last_index));
+  printf("VISITES : ");
+  for (int i = 0; i < 10; i++) {
+    printf("%d ", visites[i]);
+  }
+  printf("FIN VISITES\n");
+
+  afficher_graphe_largeur(g, 5);
 }
