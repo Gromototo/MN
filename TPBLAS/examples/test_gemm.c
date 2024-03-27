@@ -30,12 +30,48 @@ void test1(){
     assert(C[i] == R[i]);
     //printf("%f ", C[i]);
   }
+
+  
   return;
 }
+
+void test2(){
+
+  const double A[6] = {1, 2, 5, 3, 4, 6};
+  const double B[6] = {5, 6, 7, 8, 9, 10};
+
+  float C[4] = {9, 10, 11, 12};
+
+  const double alpha = 2;
+  const double beta = 3;
+
+  const int M = 2;
+  const int K = 3;
+  const int N = 2;
+
+  mncblas_dgemm( 0,  0,
+                  0, M, N,
+                 K,  alpha, &A,
+                 0, &B, 0,
+                 beta,  &C, 0);
+
+
+  const double R[4] = {155, 174, 227, 256};
+  for (int i = 0; i < 4; i++) {
+    printf("%lf %lf \n", C[i], R[i]);
+    assert(C[i] == R[i]);
+  }
+
+  
+  return;
+}
+
 
 
 void main(){
 
   test1();
+  test2();
+  printf("Gemm tests passed\n");
   return;
 }

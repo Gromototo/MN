@@ -2,9 +2,11 @@
 #include <stdlib.h>
 
 #include "mnblas.h"
-#include "complexe.h"
-#define    NB_FOIS        512
+
 #include "flop.h"
+
+#define    NB_FOIS        512
+
 int main (int argc, char **argv)
 {
  complexe_float_t c1 = {1.0, 2.0} ;
@@ -14,12 +16,12 @@ int main (int argc, char **argv)
  complexe_double_t cd2 ;
 
  struct timespec start, end ;
- 
+
  int i ;
 
  init_nano () ;
- 
- c1 = add_complexe_float(c1, c2) ;
+
+ c1 = add_complexe_float (c1, c2) ;
 
  printf ("c1.r %f c&.i %f\n", c1.real, c1.imaginary) ;
 
@@ -28,10 +30,10 @@ int main (int argc, char **argv)
 
 
  TOP_NANO(start) ;
- 
+
  for (i = 0 ; i < NB_FOIS; i++)
    {
-     cd1 = add_complexe_double(cd1, cd2) ;
+     cd1 = add_complexe_double (cd1, cd2) ;
    }
 
  TOP_NANO(end) ;

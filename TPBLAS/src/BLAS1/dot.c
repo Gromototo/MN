@@ -9,7 +9,7 @@ float mncblas_sdot(const int N, const float *X, const int incX,
   float dot = 0.0 ;
 
   
-  for (i = 0 ; i < N ; i += incX)
+  for (i = 0 ; i < N*incX ; i += incX)
     {
       dot += X [i] * Y [j] ;
       j+=incY ;
@@ -26,7 +26,7 @@ double mncblas_ddot(const int N, const double *X, const int incX,
   float dot = 0.0 ;
 
   
-  for (i = 0 ; i < N ; i += incX)
+  for (i = 0 ; i < N*incX ; i += incX)
     {
       dot += X [i] * Y [j] ;
       j+=incY ;

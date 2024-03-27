@@ -20,7 +20,7 @@ int main (int argc, char **argv)
  int i ;
 
  init_nano () ;
- 
+
  c1 = add_complexe_float (c1, c2) ;
 
  printf ("c1.r %f c1.i %f\n", c1.real, c1.imaginary) ;
@@ -29,7 +29,7 @@ int main (int argc, char **argv)
  cd2 = (complexe_double_t) {25.0, 32.0} ;
 
  TOP_NANO(start);
- 
+
  for (i = 0 ; i < NB_FOIS; i++)
    {
      cd1 = add_complexe_double (cd1, cd2) ;
@@ -40,7 +40,7 @@ int main (int argc, char **argv)
  printf ("apres boucle cd1.real %f cd1.imaginary %f\ntemps %e secondes\n", cd1.real, cd1.imaginary, diff_nano(&start, &end)) ;
 
   TOP_NANO(start);
- 
+
  for (i = 0 ; i < 2*NB_FOIS; i++)
    {
      cd1 = add_complexe_double (cd1, cd2) ;
@@ -52,5 +52,4 @@ int main (int argc, char **argv)
 
  exit (0) ;
 }
-
 

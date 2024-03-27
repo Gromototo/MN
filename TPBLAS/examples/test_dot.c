@@ -3,6 +3,7 @@
 
 #include "flop.h"
 #include "../src/BLAS1/dot.c"
+#include <stdbool.h>
 
 #define VECSIZE    65536
 
@@ -16,7 +17,8 @@ void test1(){
     float Y[5]={0,1,1,1,0};
     const int incX=1;
     const int incY=1;
-    assert(mncblas_sdot(N, X, incX, Y, incY)==57.88);
+    float result = ((X[0]*Y[0])+(X[1]*Y[1])+(X[2]*Y[2])+(X[3]*Y[3])+(X[4]*Y[4]));
+    assert(mncblas_sdot(N, X, incX, Y, incY)==result);
 }
 
 void test2(){
@@ -25,8 +27,9 @@ void test2(){
     float Y[5]={0,1,1,1,0};
     const int incX=2;
     const int incY=1;
-    assert(mncblas_sdot(N, X, incX, Y, incY)==36.48);
-}
+    float result = ((X[0]*Y[0])+(X[2]*Y[1])+(X[4]*Y[2])+(X[6]*Y[3])+(X[8]*Y[4]));
+    assert(mncblas_sdot(N, X, incX, Y, incY)==result);
+    }
 
 void test3(){
     const int N = 5;
@@ -34,17 +37,18 @@ void test3(){
     double Y[5]={0,2.5,1,2.5,0};
     const int incX=2;
     const int incY=1;
-    assert(mncblas_ddot(N, X, incX, Y, incY)==12.93);
+    float result = ((X[0]*Y[0])+(X[2]*Y[1])+(X[4]*Y[2])+(X[6]*Y[3])+(X[8]*Y[4]));
+    assert(mncblas_ddot(N, X, incX, Y, incY)==result);
 }
 
 void test4(){
     const int N = 2;
-    void* X;
-    void* Y;
+    void* X=NULL;
+    void* Y=NULL;
     complexe_float_t c1 = {2.1, 5.2};
     complexe_float_t c2 = {2.0, 4.0};
     complexe_float_t c3 = {1.1, 3.3};
-    ((complexe_float_t*)X)[0]= c1;
+    printf("check1\n");
     ((complexe_float_t*)X)[1]= c2;
     ((complexe_float_t*)Y)[0]= c3;
     ((complexe_float_t*)Y)[1]= c1;
@@ -122,8 +126,8 @@ void test7(){
 int main(){
   test1();
   test2();
-  test4();
   test3();
+  test4();
   test5();
   test6();
   test7();

@@ -12,7 +12,7 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
   for (int m = 0; m < M; m++) {
       for (int n = 0; n < N; n++) {
           // SUM alpha * (A+B)
-          int value = 0;
+          float value = 0;
           for (int k = 0; k < K; k++) {
               value += alpha * (A[m * K + k] * B[n + k * N]);
               //printf("value : %d, A[] : %d, B[] %d, m %d, n %d, k %d \n", value, m * K + k, k * N + n, m, n, k);
@@ -36,17 +36,17 @@ void mncblas_sgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
   {
 
   for (int m = 0; m < M; m++) {
-    for (int n = 0; n < N; n++) {
-        // SUM alpha * (A+B)
-        int value = 0;
-        for (int k = 0; k < K; k++) {
-            value += alpha * (A[m * K + k] * B[n + k * N]);
-            //printf("value : %d, A[] : %d, B[] %d, m %d, n %d, k %d \n", value, m * K + k, k * N + n, m, n, k);
+        for (int n = 0; n < N; n++) {
+            // SUM alpha * (A+B)
+            double value = 0;
+            for (int k = 0; k < K; k++) {
+                value += alpha * (A[m * K + k] * B[n + k * N]);
+                //printf("value : %d, A[] : %d, B[] %d, m %d, n %d, k %d \n", value, m * K + k, k * N + n, m, n, k);
+            }
+            C[n + m * N] *= beta;
+            C[n + m * N] += value;
         }
-        C[n + m * N] *= beta;
-        C[n + m * N] += value;
     }
-  }
 
 }
 
@@ -58,28 +58,34 @@ void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                  const int lda, const void *B, const int ldb,
                  const void *beta, void *C, const int ldc)
 {
+const complexe_float_t *A_ = (const complexe_float_t *)A;
+    const complexe_float_t *B_ = (const complexe_float_t *)B;
+    complexe_float_t *C_ = (complexe_float_t *)C;
 
-  for (int m = 0; m < M; m++) {
-    for (int n = 0; n < N; n++) {
-        // SUM alpha * (A+B)
-        complexe_float_t value;
-        for (int k = 0; k < K; k++) {
-            complexe_float_t temp =  mult_complexe_float(((complexe_float_t) A)[m * K + k], ((complexe_float_t)  B)[n + k * N]);
-            temp = mult_complexe_float(*alpha, temp);
+    for (int m = 0; m < M; m++)
+    {
+        for (int n = 0; n < N; n++)
+        {
+            // SUM alpha * (A*B)
+            complexe_float_t value;
+            value.imaginary = 0;
+            value.real = 0;
 
-            value.real += temp.real;
-            value.complexe += temp.complexe;
+            for (int k = 0; k < K; k++)
+            {
+                complexe_float_t temp = mult_complexe_float(A_[m * lda + k], B_[n + k * ldb]);
+                temp = mult_complexe_float(*(const complexe_float_t *)alpha, temp);
 
+                value.real += temp.real;
+                value.imaginary += temp.imaginary;
+            }
 
-            //printf("value : %d, A[] : %d, B[] %d, m %d, n %d, k %d \n", value, m * K + k, k * N + n, m, n, k);
+            C_[n + m * ldc] = mult_complexe_float(*(const complexe_float_t *)beta, C_[n + m * ldc]);
+
+            C_[n + m * ldc].real += value.real;
+            C_[n + m * ldc].imaginary += value.imaginary;
         }
-        C[n + m * N]= mult_complexe_float(*((const complexe_float_t) beta), C[n + m * N]);
-
-        C[n + m * N].real += value.real;
-        C[n + m * N].imaginary += value.imaginary;
-
-    }
-  }    
+    } 
 }
 
 
