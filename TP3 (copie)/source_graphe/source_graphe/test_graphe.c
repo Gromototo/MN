@@ -65,10 +65,10 @@ int main (int argc, char **argv)
   }
 
   printf("Afficher graphe Largeur : \n");
-  afficher_graphe_largeur(g, 5);
+  afficher_graphe_largeur(g, 1);
 
 
   printf("Afficher graphe profondeur : \n");
-  afficher_graphe_profondeur(g, 5);
+  afficher_graphe_profondeur(g, 1);
 
 }

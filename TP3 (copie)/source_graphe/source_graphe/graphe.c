@@ -208,7 +208,7 @@ void afficher_graphe_largeur (pgraphe_t g, int r)
   int last_label_index = -1;
   
   pfile_t q = creer_file();
-  enfiler(q, g);
+  enfiler(q, chercher_sommet(g, r));
 
   while (!file_vide(q)){
     psommet_t s = defiler(q);
@@ -243,32 +243,33 @@ void afficher_graphe_profondeur (pgraphe_t g, int r)
     afficher les sommets du graphe avec un parcours en profondeur
   */
   
-    psommet_t s = chercher_sommet(g,r);
-    ppile_t avisiter = creer_pile();
+  psommet_t s = chercher_sommet(g,r);
+  ppile_t avisiter = creer_pile();
 
-    int visites[nombre_sommets(g)];
-        
-    int last_label_index = -1;
+  int visites[nombre_sommets(g)];
+  int last_label_index = 0;
 
-    empiler(avisiter, s);
-    while (!pile_vide(avisiter))
-        {
-            psommet_t t = depiler(avisiter);
-            printf("%i", t->label);
+  empiler(avisiter, s);
+  while (!pile_vide(avisiter))
+      {
+          psommet_t t = depiler(avisiter);
+
+          if (last_label_index != visiter(t->label, visites, last_label_index)){
             last_label_index++;
+            printf("%i \n", t->label);
+          }
 
-            parc_t arc_courant = t->liste_arcs;
-
-            while (arc_courant != NULL) {
-              
-              if (!deja_visite(arc_courant->dest->label, visites, last_label_index))
-              {
-                  empiler(avisiter, arc_courant->dest);
-              }
-
-              arc_courant = arc_courant->arc_suivant;
+          parc_t arc_courant = t->liste_arcs;
+          while (arc_courant != NULL) {
+            
+            if (!deja_visite(arc_courant->dest->label, visites, last_label_index))
+            {
+              empiler(avisiter, arc_courant->dest);
             }
-        }
+
+            arc_courant = arc_courant->arc_suivant;
+          }
+      }
   return;
 }
  
