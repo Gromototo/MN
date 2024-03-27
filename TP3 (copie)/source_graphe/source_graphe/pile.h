@@ -1,4 +1,8 @@
-#include "graphe.h"
+// graph.h
+#ifndef GRAPHE_H
+#define GRAPHE_H
+  #include "graphe.h"
+#endif   
 
 #define MAX_PILE_SIZE       100
 
@@ -15,6 +19,6 @@ int pile_vide (ppile_t p) ;
 
 int pile_pleine (ppile_t p) ;
 
-pnoeud_t depiler (ppile_t p)  ;
+psommet_t depiler (ppile_t p)  ;
 
 int empiler (ppile_t p, psommet_t pn) ;

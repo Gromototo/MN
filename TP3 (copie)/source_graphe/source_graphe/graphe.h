@@ -15,7 +15,6 @@ typedef struct s
   int        couleur ; // couleur du sommet
   
   int        poids_dijkstra ;
-  int nb_arcs_entrants;
 
 } sommet_t, *psommet_t ;
 
@@ -68,3 +67,14 @@ void algo_dijkstra (pgraphe_t g, int r) ;
 
 bool deja_visite(int s_label, int* visites, int last_label_index);
 int visiter(int label, int* visites, int last_label_index);
+
+
+// ======================================================================
+
+int degre_sortant_sommet (pgraphe_t g, psommet_t s);
+int degre_entrant_sommet (pgraphe_t g, psommet_t s);
+int degre_maximal_graphe (pgraphe_t g);
+int degre_minimal_graphe (pgraphe_t g);
+int independant (pgraphe_t g);
+int complet (pgraphe_t g);
+int regulier (pgraphe_t g);

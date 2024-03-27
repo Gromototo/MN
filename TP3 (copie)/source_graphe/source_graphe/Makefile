@@ -2,9 +2,12 @@ all: test_graphe
 
 file.o: file.h file.c
 	gcc -Wall -c file.c
-	
-test_graphe: test_graphe.o graphe.o io_graphe.o file.o
-	gcc -o test_graphe test_graphe.o graphe.o io_graphe.o  file.o
+
+pile.o: pile.h pile.c
+	gcc -Wall -c pile.c
+
+test_graphe: test_graphe.o graphe.o io_graphe.o file.o pile.o
+	gcc -o test_graphe test_graphe.o graphe.o io_graphe.o  file.o pile.o
 
 graphe.o: graphe.c graphe.h
 	gcc -Wall -c graphe.c

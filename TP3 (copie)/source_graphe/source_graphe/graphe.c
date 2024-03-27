@@ -10,6 +10,8 @@
 #include <limits.h>
 
 #include "file.h"
+#include "pile.h"
+
 #include <stdbool.h>
 
 
@@ -241,14 +243,35 @@ void afficher_graphe_profondeur (pgraphe_t g, int r)
     afficher les sommets du graphe avec un parcours en profondeur
   */
   
-  //psommet_t s = chercher_sommet(g,r);
-  
-  
-  
-  
-  
-  return ;
+    psommet_t s = chercher_sommet(g,r);
+    ppile_t avisiter = creer_pile();
+
+    int visites[nombre_sommets(g)];
+        
+    int last_label_index = -1;
+
+    empiler(avisiter, s);
+    while (!pile_vide(avisiter))
+        {
+            psommet_t t = depiler(avisiter);
+            printf("%i", t->label);
+            last_label_index++;
+
+            parc_t arc_courant = t->liste_arcs;
+
+            while (arc_courant != NULL) {
+              
+              if (!deja_visite(arc_courant->dest->label, visites, last_label_index))
+              {
+                  empiler(avisiter, arc_courant->dest);
+              }
+
+              arc_courant = arc_courant->arc_suivant;
+            }
+        }
+  return;
 }
+ 
 
 
 
@@ -296,15 +319,22 @@ int degre_entrant_sommet (pgraphe_t g, psommet_t s)
   /*
     Cette fonction retourne le nombre d'arcs entrants 
     dans le noeud n dans le graphe g
+
+    Effet de bord, initialise la variable nb_arcs_entrants de chaque sommet
   */ 
 
+  int nb_arcs_entrants = 0;
   psommet_t s_courant = g;
-
   while (s_courant != NULL){
 
     parc_t arc_courant = s_courant->liste_arcs;
+
     while (arc_courant != NULL) {
-      arc_courant->dest->nb_arcs_entrants++;
+
+      if (arc_courant->dest->label == s->label){
+        nb_arcs_entrants++;
+      }
+      
       arc_courant = arc_courant->arc_suivant; 
     }
 
@@ -312,7 +342,7 @@ int degre_entrant_sommet (pgraphe_t g, psommet_t s)
   }
 
 
-  return chercher_sommet(g, s->label)->nb_arcs_entrants;
+  return nb_arcs_entrants;
 }
 
 int degre_maximal_graphe (pgraphe_t g)
@@ -323,7 +353,9 @@ int degre_maximal_graphe (pgraphe_t g)
 
   psommet_t s_courant = g;
 
-  int max = g->nb_arcs_entrants;
+  degre_entrant_sommet(g, s_courant);
+  int max = degre_entrant_sommet(g, g);
+
   while (s_courant != NULL){
 
     int nb_arcs_entrants = degre_entrant_sommet(g, s_courant);
@@ -346,7 +378,7 @@ int degre_minimal_graphe (pgraphe_t g)
   */
   psommet_t s_courant = g;
 
-  int min = g->nb_arcs_entrants;
+  int min = degre_entrant_sommet(g, g);
   while (s_courant != NULL){
 
     int nb_arcs_entrants = degre_entrant_sommet(g, s_courant);
@@ -386,8 +418,21 @@ int regulier (pgraphe_t g)
      g est le ponteur vers le premier sommet du graphe
      renvoie 1 si le graphe est régulier, 0 sinon
   */
+  psommet_t s = g->sommet_suivant;
+  int degre = degre_entrant_sommet(g,s);
 
-  return 0 ;
+  while (s != NULL) {
+
+   int s_degre =  degre_entrant_sommet(g,s);
+
+   if (s_degre != degre){
+      return 0;
+    }
+
+    s  = s->sommet_suivant;
+  }
+    
+  return 1 ;
 }
 
 

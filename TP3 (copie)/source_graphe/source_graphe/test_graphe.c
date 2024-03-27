@@ -48,5 +48,27 @@ int main (int argc, char **argv)
   }
   printf("FIN VISITES\n");
 
+
+  printf("degre maximal graphe %d\n", degre_maximal_graphe(g));
+  printf("degre minimal grpahe %d\n", degre_minimal_graphe(g));
+  printf("graphe indepedantn %d\n", independant(g));
+  printf("graphe complet %d \n", complet(g));
+  printf("graphe regulier %d \n", regulier(g));
+
+  psommet_t s = g;
+  while (s!=NULL) {
+    printf("sommet %d\n", s->label);
+    printf("degre sortant %d\n", degre_sortant_sommet(g, s));
+    printf("degre entrant %d\n", degre_entrant_sommet(g, s));
+
+    s = s->sommet_suivant;
+  }
+
+  printf("Afficher graphe Largeur : \n");
   afficher_graphe_largeur(g, 5);
+
+
+  printf("Afficher graphe profondeur : \n");
+  afficher_graphe_profondeur(g, 5);
+
 }

@@ -1,5 +1,8 @@
-#include "graphe.h"
-
+// graph.h
+#ifndef GRAPHE_H
+#define GRAPHE_H
+  #include "graphe.h"
+#endif      
 
 #define MAX_FILE_SIZE       32
 

@@ -34,7 +34,8 @@ void afficher_graphe_profondeur (pgraphe_t g, int r)
                 }
         }
         
-  
+  return;
+}
  
 
  
