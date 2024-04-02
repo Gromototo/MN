@@ -194,6 +194,17 @@ void mncblas_zgemv(MNCBLAS_LAYOUT layout,
 
 
 
+void mncblas_strmv(MNCBLAS_UPLO uplo, MNCBLAS_TRANSPOSE trans, MNCBLAS_DIAG diag, int n, float* A,
+int lda, float* x, int incX);
+
+void mncblas_dtrmv(MNCBLAS_UPLO uplo, MNCBLAS_TRANSPOSE trans, MNCBLAS_DIAG diag, int n, double* A,
+int lda, double* x, int incX);
+
+void mncblas_ctrmv(MNCBLAS_UPLO uplo, MNCBLAS_TRANSPOSE trans, MNCBLAS_DIAG diag, int n, void* A,
+int lda, void* x, int incX);
+
+void mncblas_ztrmv(MNCBLAS_UPLO uplo, MNCBLAS_TRANSPOSE trans, MNCBLAS_DIAG diag, int n, void* A,
+int lda, void* x, int incX);
 /*
  * ===========================================================================
  * Prototypes for level 3 BLAS

@@ -58,7 +58,7 @@ void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                  const int lda, const void *B, const int ldb,
                  const void *beta, void *C, const int ldc)
 {
-const complexe_float_t *A_ = (const complexe_float_t *)A;
+    const complexe_float_t *A_ = (const complexe_float_t *)A;
     const complexe_float_t *B_ = (const complexe_float_t *)B;
     complexe_float_t *C_ = (complexe_float_t *)C;
 
@@ -73,17 +73,21 @@ const complexe_float_t *A_ = (const complexe_float_t *)A;
 
             for (int k = 0; k < K; k++)
             {
-                complexe_float_t temp = mult_complexe_float(A_[m * lda + k], B_[n + k * ldb]);
+                complexe_float_t temp = mult_complexe_float(A_[m * K + k], B_[n + k * N]);
                 temp = mult_complexe_float(*(const complexe_float_t *)alpha, temp);
+                printf("\ntemp : %f, %f\n", temp.real, temp.imaginary);
 
                 value.real += temp.real;
                 value.imaginary += temp.imaginary;
             }
 
-            C_[n + m * ldc] = mult_complexe_float(*(const complexe_float_t *)beta, C_[n + m * ldc]);
 
-            C_[n + m * ldc].real += value.real;
-            C_[n + m * ldc].imaginary += value.imaginary;
+            printf("\nvalue : %f, %f\n", value.real, value.imaginary);
+            C_[n + m * N] = mult_complexe_float(*(const complexe_float_t *)beta, C_[n + m * ldc]);
+
+            C_[n + m * N].real += value.real;
+            C_[n + m * N].imaginary += value.imaginary;
+            printf("C[%d] : %f, %f\n", n + m * ldc, C_[n + m * ldc].real, C_[n + m * ldc].imaginary);
         }
     } 
 }

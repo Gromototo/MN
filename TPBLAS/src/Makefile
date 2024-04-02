@@ -26,6 +26,9 @@ copy.o : $(BLAS_DIR)/copy.c $(INC_DIR)/mnblas.h
 
 swap.o : $(BLAS_DIR)/swap.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS) -c $(BLAS_DIR)/swap.c -o swap.o 
+	
+axpy.o : $(BLAS_DIR)/axpy.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS) -c $(BLAS_DIR)/axpy.c -o axpy.o 
 
 dot.o : $(BLAS_DIR)/dot.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS) -c $(BLAS_DIR)/dot.c -o dot.o

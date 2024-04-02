@@ -11,127 +11,51 @@
 
 typedef float vfloat [VECSIZE] ;
 
-void test1(){
-    const int N = 5;
-    const float X[5]={2.5,2.7,3.0,52.18,-18.2};
-    float Y[5]={0,1,1,1,0};
-    const int incX=1;
-    const int incY=1;
-    float result = ((X[0]*Y[0])+(X[1]*Y[1])+(X[2]*Y[2])+(X[3]*Y[3])+(X[4]*Y[4]));
-    assert(mncblas_sdot(N, X, incX, Y, incY)==result);
+vfloat vec1, vec2 ;
+
+void vector_init (vfloat V, float x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < VECSIZE; i++)
+    V [i] = x ;
+
+  return ;
 }
 
-void test2(){
-    const int N = 5;
-    const float X[10]={2.5,2.7,3.0,3.8,52.18,52.19,-18.7,-18.2,-140.99,-140.0};
-    float Y[5]={0,1,1,1,0};
-    const int incX=2;
-    const int incY=1;
-    float result = ((X[0]*Y[0])+(X[2]*Y[1])+(X[4]*Y[2])+(X[6]*Y[3])+(X[8]*Y[4]));
-    assert(mncblas_sdot(N, X, incX, Y, incY)==result);
-    }
+void vector_print (vfloat V)
+{
+  register unsigned int i ;
 
-void test3(){
-    const int N = 5;
-    const double X[10]={2.5,2.7,3.0,3.8,52.18,52.19,-18.7,-18.2,-140.99,-140.0};
-    double Y[5]={0,2.5,1,2.5,0};
-    const int incX=2;
-    const int incY=1;
-    float result = ((X[0]*Y[0])+(X[2]*Y[1])+(X[4]*Y[2])+(X[6]*Y[3])+(X[8]*Y[4]));
-    assert(mncblas_ddot(N, X, incX, Y, incY)==result);
+  for (i = 0; i < VECSIZE; i++)
+    printf ("%f ", V[i]) ;
+  printf ("\n") ;
+
+  return ;
 }
 
-void test4(){
-    const int N = 2;
-    void* X=NULL;
-    void* Y=NULL;
-    complexe_float_t c1 = {2.1, 5.2};
-    complexe_float_t c2 = {2.0, 4.0};
-    complexe_float_t c3 = {1.1, 3.3};
-    printf("check1\n");
-    ((complexe_float_t*)X)[1]= c2;
-    ((complexe_float_t*)Y)[0]= c3;
-    ((complexe_float_t*)Y)[1]= c1;
-    int incX,incY=1;
-    void* dotu;
-    ((complexe_float_t*)dotu)->real=0;
-    ((complexe_float_t*)dotu)->imaginary=0;
-    mncblas_cdotu_sub(N, X, incX, Y, incY,dotu);
-    assert(((complexe_float_t*)dotu)->real==6.51);
-    assert(((complexe_float_t*)dotu)->imaginary==37.96);
+int main (int argc, char **argv)
+{
+ struct timespec start, end ;
+ 
+ float res ;
+ int i ;
 
-}
+ init_nano () ;
+ 
+ for (i = 0 ; i < NB_FOIS; i++)
+   {
+     vector_init (vec1, 1.0) ;
+     vector_init (vec2, 2.0) ;
+     res = 0.0 ;
 
-void test5(){
-  const int N = 2;
-    void* X;
-    void* Y;
-    complexe_float_t c1 = {2.1, 5.2};
-    complexe_float_t c2 = {2.0, 4.0};
-    complexe_float_t c3 = {1.1, 3.3};
-    ((complexe_float_t*)X)[0]= c1;
-    ((complexe_float_t*)X)[1]= c2;
-    ((complexe_float_t*)Y)[0]= c3;
-    ((complexe_float_t*)Y)[1]= c1;
-    int incX,incY=1;
-    void* dotu;
-    ((complexe_float_t*)dotu)->real=0;
-    ((complexe_float_t*)dotu)->imaginary=0;
-    mncblas_cdotu_sub(N, X, incX, Y, incY,dotu);
-    assert(((complexe_float_t*)dotu)->real==6.51);
-    assert(((complexe_float_t*)dotu)->imaginary==-37.96);
-}
+     TOP_NANO (start) ;
+        res = mncblas_sdot (VECSIZE, vec1, 1, vec2, 1) ;
+     TOP_NANO (end);
 
-void test6(){
-  const int N = 2;
-    void* X;
-    void* Y;
-    complexe_double_t c1 = {2.1, 5.2};
-    complexe_double_t c2 = {2.0, 4.0};
-    complexe_double_t c3 = {1.1, 3.3};
-    ((complexe_double_t*)X)[0]= c1;
-    ((complexe_double_t*)X)[1]= c2;
-    ((complexe_double_t*)Y)[0]= c3;
-    ((complexe_double_t*)Y)[1]= c1;
-    int incX,incY=1;
-    void* dotu;
-    ((complexe_double_t*)dotu)->real=0;
-    ((complexe_double_t*)dotu)->imaginary=0;
-    mncblas_cdotu_sub(N, X, incX, Y, incY,dotu);
-    assert(((complexe_double_t*)dotu)->real==6.51);
-    assert(((complexe_double_t*)dotu)->imaginary==37.96);
-}
+     printf ("sdot nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+   }
 
-
-void test7(){
-    const int N = 2;
-    void* X;
-    void* Y;
-    complexe_double_t c1 = {2.1, 5.2};
-    complexe_double_t c2 = {2.0, 4.0};
-    complexe_double_t c3 = {1.1, 3.3};
-    ((complexe_double_t*)X)[0]= c1;
-    ((complexe_double_t*)X)[1]= c2;
-    ((complexe_double_t*)Y)[0]= c3;
-    ((complexe_double_t*)Y)[1]= c1;
-    int incX,incY=1;
-    void* dotu;
-    ((complexe_float_t*)dotu)->real=0;
-    ((complexe_float_t*)dotu)->imaginary=0;
-    mncblas_cdotu_sub(N, X, incX, Y, incY,dotu);
-    assert(((complexe_float_t*)dotu)->real==6.51);
-    assert(((complexe_float_t*)dotu)->imaginary==-37.96);
-}
-
-int main(){
-  test1();
-  test2();
-  test3();
-  test4();
-  test5();
-  test6();
-  test7();
-
-
-  printf("DOT TESTS PASSED\n");
+ printf ("res = %f\n", res) ;
+ printf ("==========================================================\n") ;
 }

@@ -1,4 +1,4 @@
-ll: test_complexe4 test_complexe3 test_complexe2 test_complexe test_dot test_dot_dyn test_copy  test_gemv test_swap test_gemm
+all: test_complexe4 test_complexe3 test_complexe2 test_complexe test_dot test_dot_dyn test_copy  test_gemv test_swap test_gemm #test_axpy
 
 INC_DIR=../include
 
@@ -72,6 +72,12 @@ test_swap: test_swap.o $(LIBST)
 
 test_swap.o: test_swap.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_swap.c
+
+test_axpy: test_axpy.o $(LIBST)
+	gcc -o test_axpy test_axpy.o  $(OPTIONS_LINK_STATIC)
+
+test_axpy.o: test_axpy.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS_COMPIL) -c test_axpy.c
 
 
 test_gemm: test_gemm.o $(LIBST)

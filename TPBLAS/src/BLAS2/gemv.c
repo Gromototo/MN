@@ -7,8 +7,8 @@ void mncblas_sgemv(const MNCBLAS_LAYOUT layout,
                  const float *X, const int incX, const float beta,
                  float *Y, const int incY)
                  {
-                    float *newA = malloc(sizeof(float)*M*N);
-                    float *new_newA = malloc(sizeof(float)*N);
+                    float newA[M*N];
+                    float new_newA[N];
                     int i;
                     for (i = 0; i<M*N; i++)
                     {
@@ -43,8 +43,8 @@ void mncblas_dgemv(MNCBLAS_LAYOUT layout,
                  double *Y, const int incY)
                  
                 {
-                double *newA = malloc(sizeof(double)*M*N);
-                double *new_newA = malloc(sizeof(double)*N);
+                double newA[M*N];
+                double new_newA[N];
                 int i;
                 for (i = 0; i<M*N; i++)
                 {
@@ -79,8 +79,8 @@ void mncblas_cgemv(MNCBLAS_LAYOUT layout,
                  const void *X, const int incX, const void *beta,
                  void *Y, const int incY)
                  {
-                    complexe_float_t *newA = malloc(sizeof(complexe_float_t)*M*N); //alpha*A
-                    complexe_float_t *new_newA = malloc(sizeof(complexe_float_t)*N);//alpha*A*x
+                    complexe_float_t newA[M*N]; //alpha*A
+                    complexe_float_t new_newA[N];//alpha*A*x
                     
                     int i;
                     complexe_float_t* calpha = (complexe_float_t*) alpha; //must be In*alpha
@@ -114,7 +114,7 @@ void mncblas_cgemv(MNCBLAS_LAYOUT layout,
                             j = 0;
                         }
                     }
-
+ 
                     for (int i = 0; i<M;i++)
                     {
                         cY[i] = add_complexe_float(new_newA[i], mult_complexe_float(cbeta[0],cY[i]));
@@ -128,8 +128,8 @@ void mncblas_zgemv(MNCBLAS_LAYOUT layout,
                  const void *X, const int incX, const void *beta,
                  void *Y, const int incY)
                  {
-                    complexe_double_t *newA = malloc(sizeof(complexe_double_t)*M*N); //alpha*A
-                    complexe_double_t *new_newA = malloc(sizeof(complexe_double_t)*N);//alpha*A*x
+                    complexe_double_t newA[M*N]; //alpha*A
+                    complexe_double_t new_newA[N];//alpha*A*x
                     
                     int i;
                     complexe_double_t* calpha = (complexe_double_t*) alpha; //must be In*alpha
