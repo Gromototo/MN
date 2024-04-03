@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <assert.h>
-
-
 #include "../src/BLAS3/gemm.c"
+//#include <stdio.h>
+#include <assert.h>
 
 void test1(){
 
@@ -73,23 +71,22 @@ void test3(){
 
   
 
-  const complexe_float_t A[6] = {{1.0f, 0.0f}, {2.0f, 0.0f}, {5.0f, 0.0f}, {3.0f, 0.0f}, {4.0f, 0.0f}, {6.0f, 0.0f}};
-  const complexe_float_t B[6] = {{5.0, 0.0}, {6.0, 0.0}, {7.0, 0.0}, {8.0, 0.0}, {9.0,  0.0}, {10.0, 0.0}};
+  const complexe_float_t A[6] = {{-3.0f, 4.0f}, {3.0f, 6.0f}, {-18.0f, 9.0f}, {1.0f, 2.0f}, {5.0f, 0.0f}, {-3.0f, 14.0f}};
+  const complexe_float_t B[4] = {{3.0, 1.0}, {3.0, 1.0}, {1.0, 4.0}, {1.0, 4.0}};
 
-  complexe_float_t C[4] = {{9.0, 0.0}, {10.0, 0.0}, {11.0, 0.0}, {12.0, 0.0}};
+  complexe_float_t C[6] = {{1,1}, {1,1}, {1,1}, {1,1},{1,1},{1,1}};
 
-  const complexe_float_t alpha = {2.0f, 0.0f};
-  const complexe_float_t beta = {3.0f, 0.0f};
+  const complexe_float_t alpha = {1.0f, 0.0f};
+  const complexe_float_t beta = {1.0f, 0.0f};
 
-  const int M = 2;
-  const int K = 3;
+  const int M = 3;
+  const int K = 2;
   const int N = 2;
 
   mncblas_cgemm(0, 0, 0, M, N,K, &alpha,  A,
                  0, B, 0,&beta, C, 0);
 
-
-  const complexe_float_t R[4] = {{155.0, 0.0}, {174.0, 0}, {227.0, 0.0}, {256.0, 0.0}};
+  complexe_float_t R[6] = {{-33.0, 28.0}, {-33.0, 28.0}, {-69.0, 16.0}, {-69.0, 16.0},{-63,18},{-63,18}};
   for (int i = 0; i < 4; i++) {
     printf("%f %f %f %f \n",C[i].real, C[i].imaginary, R[i].real, R[i].imaginary);
     assert(C[i].real == R[i].real);
