@@ -92,7 +92,8 @@ void test4(){
 
     register unsigned int i = 0 ;
     register unsigned int j = 0 ;
-    int b1,b2 = 1;
+    int b1 = 1;
+    int b2 = 1;
     for (; ((i < N) && (j < N)) ; i += incX, j += incY)
     {
       b1 &= Y[j].real==X[i].real;
