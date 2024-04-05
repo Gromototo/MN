@@ -80,5 +80,19 @@ void mncblas_zgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                  const int lda, const void *B, const int ldb,
                  const void *beta, void *C, const int ldc)
 {
-  
+    for (int m = 0; m < M; m++) {
+        for (int n = 0; n < N; n++) {
+            // SUM alpha * (A+B)
+            complexe_double_t value = {0, 0};
+            for (int k = 0; k < K; k++) {
+                value = add_complexe_double(value, mult_complexe_double(*((complexe_double_t*) alpha), mult_complexe_double(((complexe_double_t*)A)[m * K + k], ((complexe_double_t*)B)[n + k * N])));
+            }
+            ((complexe_double_t*) C)[n + m * N] = mult_complexe_double(*((complexe_double_t*) beta), ((complexe_double_t*)C)[n + m * N]);
+            ((complexe_double_t*) C)[n + m * N] = add_complexe_double(value, ((complexe_double_t*) C)[n + m * N]);
+
+            printf("value %f %f \n", value.real, value.imaginary);
+        }
+    }
 }
+
+  

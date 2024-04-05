@@ -1,4 +1,4 @@
-#include "../src/BLAS3/gemm.c"
+#include "../src/BLAS3/gemm_omp.c"
 #include <stdio.h>
 #include <assert.h>
 
