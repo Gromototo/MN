@@ -1,4 +1,4 @@
-#include "../src/BLAS2/gemv.c"
+#include "../src/BLAS2/gemv_omp.c"
 #include <stdio.h>
 
 void compare_float(float *X, float *Y, const int Ysize) //compare les deux vecteurs
@@ -397,7 +397,7 @@ int main(){
     test07();
 
 
-    printf("\nTESTS GEMV PASSED\n");
+    //printf("\nTESTS GEMV PASSED\n");
     return 1;
 }
 
