@@ -1,4 +1,4 @@
-all: test_complexe4 test_complexe3 test_complexe2 test_complexe test_dot test_dot_dyn test_copy test_gemv test_gemv_omp test_swap test_gemm test_gemm_omp #test_axpy
+all: test_complexe4 test_complexe3 test_complexe2 test_complexe test_dot test_dot_omp test_dot_dyn test_copy test_copy_omp test_gemv test_gemv_omp test_swap test_gemm test_gemm_omp test_axpy test_axpy_omp
 
 INC_DIR=../include
 
@@ -17,6 +17,12 @@ test_dot: test_dot.o flop.o $(LIBST)
 
 test_dot.o: test_dot.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_dot.c
+
+test_dot_omp: test_dot_omp.o flop.o $(LIBST)
+gcc -o test_dot_omp test_dot_omp.o flop.o $(OPTIONS_LINK_STATIC)
+
+test_dot_omp.o: test_dot_omp.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS_COMPIL) -c test_dot_omp.c
 
 flop.o: flop.c flop.h
 	gcc $(OPTIONS_COMPIL) -c flop.c
@@ -59,6 +65,11 @@ test_copy: test_copy.o $(LIBST)
 test_copy.o: test_copy.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_copy.c
 
+test_copy_omp: test_copy_omp.o $(LIBST)
+	gcc -o test_copy_omp test_copy_omp.o  $(OPTIONS_LINK_STATIC)
+
+test_copy_omp.o: test_copy_omp.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS_COMPIL) -c test_copy_omp.c
 
 test_gemv: test_gemv.o $(LIBST)
 	gcc -o test_gemv test_gemv.o  $(OPTIONS_LINK_STATIC)
@@ -87,6 +98,12 @@ test_axpy: test_axpy.o $(LIBST)
 
 test_axpy.o: test_axpy.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_axpy.c
+
+test_axpy_omp: test_axpy_omp.o $(LIBST)
+	gcc -o test_axpy_omp test_axpy_omp.o  $(OPTIONS_LINK_STATIC)
+
+test_axpy_omp.o: test_axpy_omp.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS_COMPIL) -c test_axpy_omp.c
 
 
 test_gemm: test_gemm.o $(LIBST)
