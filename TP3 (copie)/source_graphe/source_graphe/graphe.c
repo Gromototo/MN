@@ -204,7 +204,7 @@ void afficher_graphe_largeur (pgraphe_t g, int r)
     afficher les sommets du graphe avec un parcours en largeur
   */
 
-  int visites[1000];
+  int visites[nombre_sommets(g)];
   int last_label_index = -1;
   
   pfile_t q = creer_file();
@@ -442,3 +442,200 @@ int regulier (pgraphe_t g)
 /*
   placer les fonctions de l'examen 2017 juste apres
 */
+
+
+int elementaire ( pgraphe_t g , chemin_t c ){
+  
+  
+  int visites[nombre_sommets(g)]; 
+  int last_label_index = -1;
+
+  parc_t arc_courant = c.arcs;
+
+  while (arc_courant->arc_suivant != NULL){
+    
+
+    if (deja_visite(arc_courant->dest->label, visites, last_label_index)){
+      return 0;
+    }
+
+    last_label_index = visiter(arc_courant->dest->label, visites, last_label_index);
+
+    arc_courant = arc_courant->arc_suivant;
+  }
+
+  return 1;
+}
+
+int simple ( pgraphe_t g , chemin_t c ) {
+
+  int visites[nombre_arcs(g)]; 
+  int last_label_index = -1;
+
+
+  int debut = c.debut;
+
+
+  //Je dis que l'id d'un node c'est le nombre debutfin ex : debut = 4, fin = 5, id = 45
+  parc_t arc_courant = c.arcs;
+  int fin = c.arcs->dest->label;
+  while (arc_courant->arc_suivant != NULL){
+
+    if (deja_visite((debut*10 + fin), visites, last_label_index)){
+      return 0;
+    }
+
+    last_label_index = visiter((debut*10 + fin), visites, last_label_index);
+
+    arc_courant = arc_courant->arc_suivant;
+
+    debut = fin;
+    fin = arc_courant->dest->label;
+  }
+
+  return 1;
+
+}
+
+/*
+Un chemin est dit Eulérien si tous les arcs du graphe sont utilisés dans le chemin.
+*/
+int eulerien ( pgraphe_t g , chemin_t c ) {
+  int nb_arcs_differents = 0;
+
+  int visites[nombre_arcs(g)]; 
+  int last_label_index = -1;
+
+  parc_t arc_courant = c.arcs;
+  int debut = c.debut;
+  int fin = c.arcs->dest->label;
+
+  while (arc_courant->arc_suivant != NULL){
+
+    if (!deja_visite((debut*10 + fin), visites, last_label_index)){
+       last_label_index = visiter((debut*10 + fin), visites, last_label_index);
+       nb_arcs_differents++;
+    }
+
+    arc_courant = arc_courant->arc_suivant;
+
+    debut = fin;
+    fin = arc_courant->dest->label;
+  }
+
+  if (nb_arcs_differents == nombre_arcs(g)){
+    return 1;
+  }
+
+  return 0;
+
+}
+
+/*
+* Un graphe connexe admet un parcours eulérien si et seulement si ses sommets sont tous de degré pair sauf au plus deux.
+*/
+
+int graphe_eulerien ( pgraphe_t g) {
+
+  if (connexe(g) == 0){
+    return 0;
+  }
+
+  int sommets_impairs = 0;
+  
+  psommet_t s = g;
+  while (s != NULL) {
+    if (degre_entrant_sommet(g, s) % 2 != 0){
+      sommets_impairs++;
+    }
+    s = s->sommet_suivant;
+  }
+
+  if (sommets_impairs <= 2){
+    return 1;
+  }
+
+  return 0;
+}
+
+ /*Un chemin est dit Hamiltonien si tous les sommets du graphe sont utilisés dans le chemin.*/
+int hamiltonien ( pgraphe_t g , chemin_t c ) {
+
+  int nb_sommets_differents = 0;
+
+  int visites[nombre_arcs(g)]; 
+  int last_label_index = -1;
+
+
+  last_label_index = visiter(c.debut, visites, last_label_index);
+
+  parc_t arc_courant = c.arcs;
+  while (arc_courant->arc_suivant != NULL){
+
+    if (!deja_visite(arc_courant->dest->label, visites, last_label_index)){
+       last_label_index = visiter(arc_courant->dest->label, visites, last_label_index);
+       nb_sommets_differents++;
+    }
+
+    arc_courant = arc_courant->arc_suivant;
+  }
+
+  if (nb_sommets_differents == nombre_sommets(g)){
+    return 1;
+  }
+
+  return 0;
+
+}
+
+
+int graphe_hamiltonien( pgraphe_t g) {
+
+  //pas possible sans faire d ebrute force  cf À la découverte des graphes 
+  // https://youtu.be/uwJ27Yr7rZM?si=P3X1z0XV0vVi32SM&t=195
+
+  return 0;
+}
+
+
+
+int distance (pgraphe_t g, int x, int y) {
+
+
+  /*
+  algo_dijkstra(g) va nous fournir un chemin et on calcule le poids de ses arcs ?
+  */
+}
+
+/*
+L’excentricitéd’unsommetestsadistancemaximaleaveclesautressommetsdugraphe.
+*/
+int excentricite (pgraphe_t g, int n){
+  int max = 0;
+
+  psommet_t s = g;
+  while (s != NULL) {
+    int dist = distance(g, n, s->label);
+    if (dist > max){
+      max = dist;
+    }
+    s = s->sommet_suivant;
+  }
+
+  return max;
+}
+
+int diametre( pgraphe_t g) {
+  int max = 0;
+
+  psommet_t s = g;
+  while (s != NULL) {
+    int excentricite_s = excentricite(g, s->label);
+    if (excentricite_s > max){
+      max = excentricite_s;
+    }
+    s = s->sommet_suivant;
+  }
+
+  return max;
+}

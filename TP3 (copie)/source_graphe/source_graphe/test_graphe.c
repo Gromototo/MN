@@ -70,5 +70,6 @@ int main (int argc, char **argv)
 
   printf("Afficher graphe profondeur : \n");
   afficher_graphe_profondeur(g, 1);
+  
 
 }

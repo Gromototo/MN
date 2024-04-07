@@ -29,6 +29,9 @@ typedef struct a {
                   int         poids ; // poids de l arc
                   psommet_t   dest ;  // pointeur sommet destinataire
                   struct a *  arc_suivant ; // arc suivant
+
+
+                  //ON PEUT L'ENLEVER NON ?
                   bool traite ;       //true si arc deja explorés, false sinon
   
 } arc_t, *parc_t ;
@@ -78,3 +81,23 @@ int degre_minimal_graphe (pgraphe_t g);
 int independant (pgraphe_t g);
 int complet (pgraphe_t g);
 int regulier (pgraphe_t g);
+
+//PARTIE 3
+
+
+
+typedef struct chemin {
+  int longueur;
+  int debut; //node debut
+  parc_t arcs;
+} chemin_t;
+
+int elementaire ( pgraphe_t g , chemin_t c );
+int simple ( pgraphe_t g , chemin_t c );
+int eulerien ( pgraphe_t g , chemin_t c );
+int hamiltonien ( pgraphe_t g , chemin_t c );
+int graphe_eulerien ( pgraphe_t g);
+int graphe_hamiltonien( pgraphe_t g);
+int distance (pgraphe_t g, int x, int y);
+int excentricite (pgraphe_t g, int n);
+int diametre( pgraphe_t g);
