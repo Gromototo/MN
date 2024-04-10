@@ -18,12 +18,6 @@ test_dot: test_dot.o flop.o $(LIBST)
 test_dot.o: test_dot.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_dot.c
 
-test_dot_omp: test_dot_omp.o flop.o $(LIBST)
-	gcc -o test_dot_omp test_dot_omp.o flop.o $(OPTIONS_LINK_STATIC)
-
-test_dot_omp.o: test_dot_omp.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS_COMPIL) -c test_dot_omp.c
-
 flop.o: flop.c flop.h
 	gcc $(OPTIONS_COMPIL) -c flop.c
 

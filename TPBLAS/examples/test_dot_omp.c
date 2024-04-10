@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
-
+#include "mnblas.h"
 #include "flop.h"
-#include "../src/BLAS1/dot_omp.c"
 #include <stdbool.h>
 
 #define VECSIZE    65536
