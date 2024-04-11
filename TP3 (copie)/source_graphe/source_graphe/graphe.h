@@ -82,12 +82,13 @@ int independant (pgraphe_t g);
 int complet (pgraphe_t g);
 int regulier (pgraphe_t g);
 
+
 //PARTIE 3
 
 
 
 typedef struct chemin {
-  int longueur;
+  int nb_arcs;
   int debut; //node debut
   parc_t arcs;
 } chemin_t;
@@ -101,3 +102,4 @@ int graphe_hamiltonien( pgraphe_t g);
 int distance (pgraphe_t g, int x, int y);
 int excentricite (pgraphe_t g, int n);
 int diametre( pgraphe_t g);
+int longueur(pgraphe_t g, chemin_t c);

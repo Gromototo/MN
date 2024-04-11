@@ -16,7 +16,6 @@
 
 
 
-
 bool deja_visite(int s_label, int* visites, int last_label_index) {
 
   for (int i = 0; i <= last_label_index; i++){
@@ -452,16 +451,22 @@ int elementaire ( pgraphe_t g , chemin_t c ){
 
   parc_t arc_courant = c.arcs;
 
-  while (arc_courant->arc_suivant != NULL){
-    
+  int noeud_courant = c.debut;
+  last_label_index = visiter(noeud_courant, visites, last_label_index);
 
-    if (deja_visite(arc_courant->dest->label, visites, last_label_index)){
+
+
+  while (arc_courant != NULL){
+    noeud_courant = arc_courant->dest->label;
+
+    if (deja_visite(noeud_courant, visites, last_label_index)){
       return 0;
     }
 
-    last_label_index = visiter(arc_courant->dest->label, visites, last_label_index);
+    last_label_index = visiter(noeud_courant, visites, last_label_index);
 
     arc_courant = arc_courant->arc_suivant;
+
   }
 
   return 1;
@@ -476,10 +481,12 @@ int simple ( pgraphe_t g , chemin_t c ) {
   int debut = c.debut;
 
 
-  //Je dis que l'id d'un node c'est le nombre debutfin ex : debut = 4, fin = 5, id = 45
+  //Je dis que l'id d'un arc c'est le nombre debutfin ex : debut = 4, fin = 5, id = 45
   parc_t arc_courant = c.arcs;
   int fin = c.arcs->dest->label;
-  while (arc_courant->arc_suivant != NULL){
+  while (arc_courant != NULL){
+
+    fin = arc_courant->dest->label;
 
     if (deja_visite((debut*10 + fin), visites, last_label_index)){
       return 0;
@@ -490,7 +497,6 @@ int simple ( pgraphe_t g , chemin_t c ) {
     arc_courant = arc_courant->arc_suivant;
 
     debut = fin;
-    fin = arc_courant->dest->label;
   }
 
   return 1;
@@ -507,20 +513,20 @@ int eulerien ( pgraphe_t g , chemin_t c ) {
   int last_label_index = -1;
 
   parc_t arc_courant = c.arcs;
+
   int debut = c.debut;
-  int fin = c.arcs->dest->label;
 
-  while (arc_courant->arc_suivant != NULL){
+  while (arc_courant != NULL){
 
+    int fin = arc_courant->dest->label;
+    
     if (!deja_visite((debut*10 + fin), visites, last_label_index)){
        last_label_index = visiter((debut*10 + fin), visites, last_label_index);
        nb_arcs_differents++;
     }
 
     arc_courant = arc_courant->arc_suivant;
-
     debut = fin;
-    fin = arc_courant->dest->label;
   }
 
   if (nb_arcs_differents == nombre_arcs(g)){
@@ -537,9 +543,9 @@ int eulerien ( pgraphe_t g , chemin_t c ) {
 
 int graphe_eulerien ( pgraphe_t g) {
 
-  if (connexe(g) == 0){
+  /*if (connexe(g) == 0){
     return 0;
-  }
+  }*/
 
   int sommets_impairs = 0;
   
@@ -560,27 +566,29 @@ int graphe_eulerien ( pgraphe_t g) {
 
  /*Un chemin est dit Hamiltonien si tous les sommets du graphe sont utilisés dans le chemin.*/
 int hamiltonien ( pgraphe_t g , chemin_t c ) {
+  int nb_arcs_differents = 0;
 
-  int nb_sommets_differents = 0;
-
-  int visites[nombre_arcs(g)]; 
+  int visites[nombre_sommets(g)]; 
   int last_label_index = -1;
 
-
-  last_label_index = visiter(c.debut, visites, last_label_index);
-
   parc_t arc_courant = c.arcs;
-  while (arc_courant->arc_suivant != NULL){
 
-    if (!deja_visite(arc_courant->dest->label, visites, last_label_index)){
-       last_label_index = visiter(arc_courant->dest->label, visites, last_label_index);
-       nb_sommets_differents++;
+  int debut = c.debut;
+
+  while (arc_courant != NULL){
+
+    int fin = arc_courant->dest->label;
+    
+    if (!deja_visite(debut, visites, last_label_index)){
+       last_label_index = visiter(debut, visites, last_label_index);
+       nb_arcs_differents++;
     }
 
     arc_courant = arc_courant->arc_suivant;
+    debut = fin;
   }
 
-  if (nb_sommets_differents == nombre_sommets(g)){
+  if (nb_arcs_differents == nombre_sommets(g)){
     return 1;
   }
 
@@ -591,13 +599,21 @@ int hamiltonien ( pgraphe_t g , chemin_t c ) {
 
 int graphe_hamiltonien( pgraphe_t g) {
 
-  //pas possible sans faire d ebrute force  cf À la découverte des graphes 
-  // https://youtu.be/uwJ27Yr7rZM?si=P3X1z0XV0vVi32SM&t=195
-
-  return 0;
 }
 
 
+int longueur(pgraphe_t g, chemin_t c) {
+  int longueur = 0;
+
+  parc_t arc_courant = c.arcs;
+
+  while (arc_courant != NULL){
+    longueur += arc_courant->poids;
+    arc_courant = arc_courant->arc_suivant;
+  }
+
+  return longueur;
+}
 
 int distance (pgraphe_t g, int x, int y) {
 

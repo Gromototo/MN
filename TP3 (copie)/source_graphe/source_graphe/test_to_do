@@ -1,0 +1,10 @@
+int elementaire ( pgraphe_t g , chemin_t c ); POSITIVE NEGATIVE
+int simple ( pgraphe_t g , chemin_t c );  POSITIVE NEGATIVE
+int eulerien ( pgraphe_t g , chemin_t c ); POSITIVE NEGATIVE
+int hamiltonien ( pgraphe_t g , chemin_t c ); POSITIVE  NEGATIVE
+int graphe_eulerien ( pgraphe_t g); POSITIVE NEGATIVE
+int graphe_hamiltonien( pgraphe_t g); TODO TODO
+int distance (pgraphe_t g, int x, int y); TODO
+int excentricite (pgraphe_t g, int n); TODO
+int diametre( pgraphe_t g); TODO
+int longueur(pgraphe_t g, chemin_t c); DONE
