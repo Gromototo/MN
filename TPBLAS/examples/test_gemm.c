@@ -1,4 +1,4 @@
-#include "../src/BLAS3/gemm.c"
+#include "mnblas.h"
 #include <stdio.h>
 #include <assert.h>
 

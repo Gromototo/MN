@@ -2,38 +2,40 @@ LIB_DIR=../lib
 INC_DIR=../include
 OPTIM=-O2 -fopenmp
 
-BLAS_DIR = BLAS1
-
 OPTIONS=-O2 -Wall -fPIC $(OPTIM) -I$(INC_DIR)
 
 all: libmnblas.a libmnblasdyn.so
 
-libmnblas.a: copy.o swap.o dot.o complexe.o
+libmnblas.a: copy.o swap.o dot.o complexe.o gemv.o gemm.o axpy.o
 	rm -f libmnblas.a $(LIB_DIR)/libmnblas.a
-	ar -r libmnblas.a copy.o swap.o dot.o complexe.o
+	ar -r libmnblas.a copy.o swap.o dot.o complexe.o gemv.o gemm.o axpy.o
 	cp libmnblas.a $(LIB_DIR)
 
-libmnblasdyn.so: copy.o swap.o dot.o complexe.o
+libmnblasdyn.so: copy.o swap.o dot.o complexe.o gemv.o gemm.o axpy.o
 	rm -f libmnblasdyn.so $(LIB_DIR)/libmnblasdyn.so
-	gcc -shared -o libmnblasdyn.so copy.o swap.o dot.o complexe.o
+	gcc -shared -o libmnblasdyn.so copy.o swap.o dot.o complexe.o gemv.o gemm.o axpy.o
 	cp libmnblasdyn.so $(LIB_DIR)
 
-complexe.o: $(BLAS_DIR)/complexe.c $(INC_DIR)/complexe.h
-	gcc $(OPTIONS) -c $(BLAS_DIR)/complexe.c -o complexe.o
+complexe.o: BLAS1/complexe.c $(INC_DIR)/complexe.h
+	gcc $(OPTIONS) -c BLAS1/complexe.c -o complexe.o
 
-copy.o : $(BLAS_DIR)/copy.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS) -c $(BLAS_DIR)/copy.c -o copy.o
+copy.o : BLAS1/copy.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS) -c BLAS1/copy.c -o copy.o
 
-swap.o : $(BLAS_DIR)/swap.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS) -c $(BLAS_DIR)/swap.c -o swap.o 
+swap.o : BLAS1/swap.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS) -c BLAS1/swap.c -o swap.o 
 	
-axpy.o : $(BLAS_DIR)/axpy.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS) -c $(BLAS_DIR)/axpy.c -o axpy.o 
+axpy.o : BLAS1/axpy.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS) -c BLAS1/axpy.c -o axpy.o 
 
-dot.o : $(BLAS_DIR)/dot.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS) -c $(BLAS_DIR)/dot.c -o dot.o
+dot.o : BLAS1/dot.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS) -c BLAS1/dot.c -o dot.o
 
+gemv.o : BLAS2/gemv.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS) -c BLAS2/gemv.c -o gemv.o
 
+gemm.o : BLAS3/gemm.c $(INC_DIR)/mnblas.h
+	gcc $(OPTIONS) -c BLAS3/gemm.c -o gemm.o
 
 
 clean:

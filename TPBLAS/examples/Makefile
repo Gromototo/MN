@@ -1,4 +1,4 @@
-all: test_complexe4 test_complexe3 test_complexe2 test_complexe test_dot test_dot_omp test_dot_dyn test_copy test_copy_omp test_gemv test_gemv_omp test_swap test_gemm test_gemm_omp #test_axpy_omp #test_axpy 
+all: test_complexe4 test_complexe3 test_complexe2 test_complexe test_dot test_dot_dyn test_copy test_gemv test_swap test_gemm test_axpy 
 
 INC_DIR=../include
 
@@ -59,27 +59,11 @@ test_copy: test_copy.o $(LIBST)
 test_copy.o: test_copy.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_copy.c
 
-test_copy_omp: test_copy_omp.o $(LIBST)
-	gcc -o test_copy_omp test_copy_omp.o  $(OPTIONS_LINK_STATIC)
-
-test_copy_omp.o: test_copy_omp.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS_COMPIL) -c test_copy_omp.c
-
 test_gemv: test_gemv.o $(LIBST)
 	gcc -o test_gemv test_gemv.o  $(OPTIONS_LINK_STATIC)
 
-
 test_gemv.o: test_gemv.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_gemv.c
-
-
-test_gemv_omp: test_gemv_omp.o $(LIBST)
-	gcc -o test_gemv_omp test_gemv_omp.o  $(OPTIONS_LINK_STATIC)
-
-
-test_gemv_omp.o: test_gemv_omp.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS_COMPIL) -c test_gemv_omp.c
-
 
 test_swap: test_swap.o $(LIBST)
 	gcc -o test_swap test_swap.o  $(OPTIONS_LINK_STATIC)
@@ -93,25 +77,11 @@ test_axpy: test_axpy.o $(LIBST)
 test_axpy.o: test_axpy.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_axpy.c
 
-test_axpy_omp: test_axpy_omp.o $(LIBST)
-	gcc -o test_axpy_omp test_axpy_omp.o  $(OPTIONS_LINK_STATIC)
-
-test_axpy_omp.o: test_axpy_omp.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS_COMPIL) -c test_axpy_omp.c
-
-
 test_gemm: test_gemm.o $(LIBST)
 	gcc -o test_gemm test_gemm.o  $(OPTIONS_LINK_STATIC)
 
 test_gemm.o: test_gemm.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_gemm.c
-
-test_gemm_omp: test_gemm_omp.o $(LIBST)
-	gcc -o test_gemm_omp test_gemm_omp.o  $(OPTIONS_LINK_STATIC)
-
-
-test_gemm_omp.o: test_gemm_omp.c $(INC_DIR)/mnblas.h
-	gcc $(OPTIONS_COMPIL) -c test_gemm_omp.c
 
 clean:
 	rm -f *.o test_dot test_dot_dyn test_complexe test_complexe2 test_complexe3 test_complexe4 test_swap test_gemv test_gemv_omp test_copy test_gemm test_gemmv *~

@@ -3,7 +3,7 @@
 #include <assert.h>
 
 #include "flop.h"
-#include "../src/BLAS1/dot.c"
+#include "mnblas.h"
 #include <stdbool.h>
 
 #define VECSIZE    65536

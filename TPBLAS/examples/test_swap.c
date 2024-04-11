@@ -2,7 +2,7 @@
 #include <assert.h>
 
 #include "flop.h"
-#include "../src/BLAS1/swap.c"
+#include "mnblas.h"
 
 #define VECSIZE    65536
 

@@ -1,4 +1,4 @@
-#include "../src/BLAS2/trmv.c"
+#include "mnblas.h"
 #include <stdio.h>
 
 void test00(){

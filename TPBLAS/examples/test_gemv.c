@@ -1,6 +1,6 @@
-#include "../src/BLAS2/gemv.c"
+#include "mnblas.h"
 #include <stdio.h>
-
+#include <stdlib.h>
 void compare_float(float *X, float *Y, const int Ysize) //compare les deux vecteurs
 {
     for (int i = 0; i<Ysize; i++){

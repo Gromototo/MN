@@ -2,7 +2,7 @@
 #include <assert.h>
 
 #include "flop.h"
-#include "../src/BLAS1/axpy.c"
+#include "mnblas.h"
 
 #define VECSIZE    65536
 
@@ -12,32 +12,36 @@ typedef float vfloat [VECSIZE] ;
 
 void test1(){
     const int N = 5;
-    float X[5]={2.5,2.7,3.0,5.1,1.2};
+    float X[5]={2,2,3,5,1};
     float Y[5]={5,3,2,1,4};
     float alpha = 2;
     const int incX=1;
     const int incY=1;
     mnblas_saxpy(N, alpha, X, incX, Y, incY);
-    assert(Y[0]==10);
-    assert(Y[1]==8.4);
+    assert(Y[0]==9);
+    assert(Y[1]==7);
     assert(Y[2]==8);
-    assert(Y[3]==11.2);
-    assert(Y[4]==6.4);
+    assert(Y[3]==11);
+    assert(Y[4]==6);
 }
 
 void test2(){
     const int N = 5;
-    double X[10]={2.5,4,2.7,12,3.0,4.1,5.1,9.2,1.2};
+    double X[10]={2,4,2,12,3,4,5,9,1};
     double Y[5]={5,3,2,1,4};
     double alpha = -2;
     const int incX=2;
     const int incY=1;
     mnblas_daxpy(N, alpha, X, incX, Y, incY);
-    assert(Y[0]==0);
-    assert(Y[1]==-2.4);
+
+    for (int i=0; i<5; i++){
+      printf("Y[%d] = %lf \n",i,Y[i]);
+    }
+    assert(Y[0]==1);
+    assert(Y[1]==-1);
     assert(Y[2]==-4);
-    assert(Y[3]==-9.2);
-    assert(Y[4]==1.6);
+    assert(Y[3]==-9);
+    assert(Y[4]==2);
 }
 
 int main(){
