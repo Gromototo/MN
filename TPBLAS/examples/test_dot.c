@@ -11,8 +11,14 @@
 #define NB_FOIS    10
 
 typedef float vfloat [VECSIZE] ;
+typedef double vdouble [VECSIZE] ;
+typedef complexe_float_t vcfloat [VECSIZE] ;
+typedef complexe_double_t vcdouble [VECSIZE] ;
 
 vfloat vec1, vec2 ;
+vdouble vec3, vec4;
+vcfloat vec5,vec6;
+vcdouble vec7, vec8;
 
 void vector_init (vfloat V, float x)
 {
@@ -21,6 +27,37 @@ void vector_init (vfloat V, float x)
   for (i = 0; i < VECSIZE; i++)
     V [i] = x ;
 
+  return ;
+}
+
+void vector_initd (vdouble V, double x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < VECSIZE; i++)
+    V [i] = x ;
+  return ;
+}
+
+void vector_initcf (vcfloat V, complexe_float_t x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < VECSIZE; i++){
+    V [i].real = x.real ;
+    V[i].imaginary = x.imaginary;
+  }
+  return ;
+}
+
+void vector_initcd (vcdouble V, complexe_double_t x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < VECSIZE; i++){
+    V [i].real = x.real ;
+    V[i].imaginary = x.imaginary;
+  }
   return ;
 }
 
@@ -40,6 +77,9 @@ int main (int argc, char **argv)
  struct timespec start, end ;
  
  float res ;
+ double resd;
+ complexe_float_t rescf;
+ complexe_double_t rescd;
  int i ;
 
  init_nano () ;
@@ -59,4 +99,63 @@ int main (int argc, char **argv)
 
  printf ("res = %f\n", res) ;
  printf ("==========================================================\n") ;
+
+
+ for (i = 0 ; i < NB_FOIS; i++)
+   {
+     vector_initd (vec3, 1.0) ;
+     vector_initd (vec4, 2.0) ;
+     resd = 0.0;
+     TOP_NANO (start) ;
+        resd = mncblas_ddot (VECSIZE, vec3, 1, vec4, 1) ;
+     TOP_NANO (end);
+
+     printf ("ddot nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+   }
+
+ printf ("resd = %f\n", resd) ;
+ printf ("==========================================================\n") ;
+
+  
+  
+    complexe_float_t x ={1.0,0.0};
+    complexe_float_t y ={2.0,0.0};
+  for (i = 0 ; i < NB_FOIS; i++)
+   {
+    complexe_float_t dotu[VECSIZE]; 
+     vector_initcf (vec5,x) ;
+     vector_initcf (vec6,y) ;
+      rescf.real = 0.0;
+      rescf.imaginary = 0.0; 
+     TOP_NANO (start) ;
+        mncblas_cdotu_sub(VECSIZE, vec5, 1, vec6, 1,dotu) ;
+        rescf = dotu[0];
+     TOP_NANO (end);
+
+     printf ("cdotu_sub nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+   }
+
+ printf ("rescf.reel = %f\n,rescf.imaginaire = %f\n", rescf.real, rescf.imaginary) ;
+ printf ("==========================================================\n") ;
+
+   complexe_double_t x2 ={1.0,0.0};
+    complexe_double_t y2 ={2.0,0.0};
+  for (i = 0 ; i < NB_FOIS; i++)
+   {
+    complexe_double_t dotuz[VECSIZE]; 
+     vector_initcd (vec7,x2) ;
+     vector_initcd (vec8,y2) ;
+      rescd.real = 0.0;
+      rescd.imaginary = 0.0; 
+     TOP_NANO (start) ;
+        mncblas_zdotu_sub(VECSIZE, vec7, 1, vec8, 1,dotuz) ;
+        rescd = dotuz[0];
+     TOP_NANO (end);
+
+     printf ("zdotu_sub nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+   }
+
+ printf ("rescd.reel = %f\n,rescd.imaginaire = %f\n", rescd.real, rescd.imaginary) ;
+ printf ("==========================================================\n") ;
+
 }

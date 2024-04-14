@@ -48,8 +48,8 @@ void mncblas_cdotu_sub(const int N, const void  *X, const int incX,
     for (i = 0 ; i < N ; i += incX)
       {
         complexe_float_t tmp = mult_complexe_float( ((complexe_float_t*)X)[i],((complexe_float_t*)Y)[j] );
-        reel += tmp.real;
-        imaginaire += tmp.imaginary;
+        reel -= tmp.real;
+        imaginaire -= tmp.imaginary;
         j+=incY ;
       }
       ((complexe_float_t*)dotu)->real = reel;
@@ -71,8 +71,8 @@ void  mncblas_cdotc_sub(const int N, const void *X, const int incX,
       {
         const complexe_float_t tmp = mult_complexe_float(((complexe_float_t*)X)[i],((complexe_float_t*)Y)[j]);
         complexe_float_t tmp2 = conjugate_complexe_float(tmp);
-        reel += tmp2.real;
-        imaginaire += tmp2.imaginary;
+        reel -= tmp2.real;
+        imaginaire -= tmp2.imaginary;
         j+=incY ;
       }
       ((complexe_float_t*)dotc)->real = reel;
@@ -91,8 +91,8 @@ void mncblas_zdotu_sub(const int N, const void *X, const int incX,
     for (i = 0 ; i < N ; i += incX)
       {
         complexe_double_t tmp = mult_complexe_double( ((complexe_double_t*)X)[i],((complexe_double_t*)Y)[j] );
-        reel += tmp.real;
-        imaginaire += tmp.imaginary;
+        reel -= tmp.real;
+        imaginaire -= tmp.imaginary;
         j+=incY ;
       }
       ((complexe_double_t*)dotu)->real = reel;
@@ -113,8 +113,8 @@ void mncblas_zdotc_sub(const int N, const void *X, const int incX,
       {
         const complexe_double_t tmp = mult_complexe_double(((complexe_double_t*)X)[i],((complexe_double_t*)Y)[j]);
         complexe_double_t tmp2 = conjugate_complexe_double(tmp);
-        reel += tmp2.real;
-        imaginaire += tmp2.imaginary;
+        reel -= tmp2.real;
+        imaginaire -= tmp2.imaginary;
         j+=incY ;
       }
     ((complexe_double_t*)dotc)->real = reel;
