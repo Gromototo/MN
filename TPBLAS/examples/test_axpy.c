@@ -23,6 +23,8 @@ void test1(){
     assert(Y[2]==8);
     assert(Y[3]==11);
     assert(Y[4]==6);
+    printf("\ntest1 passed\n");
+
 }
 
 void test2(){
@@ -42,11 +44,54 @@ void test2(){
     assert(Y[2]==-4);
     assert(Y[3]==-9);
     assert(Y[4]==2);
+    printf("test2 passed\n");
 }
 
+void test3(){
+  const int N = 5;
+  complexe_float_t X[5]={{2,1},{0,3},{5,0},{3,-2},{4,0}};
+  complexe_float_t Y[5]={{0,1},{1,1},{3,2},{4,0},{4,-4}};
+  complexe_float_t alpha = {1,2};
+
+  mnblas_caxpy(N, alpha, X,1, Y, 1);
+
+  for (int i=0; i<5; i++){
+      printf("Y[%i].real = %f, Y[%i].imaginary = %fi\n",i,Y[i].real,i,Y[i].imaginary);
+  }
+
+    assert(Y[0].real == 0 && Y[0].imaginary == 6);
+    assert(Y[1].real == -5 && Y[1].imaginary == 4);
+    assert(Y[2].real == 8 && Y[2].imaginary == 12);
+    assert(Y[3].real == 11 && Y[3].imaginary == 4);
+    assert(Y[4].real == 8 && Y[4].imaginary == 4);
+
+    printf("test3 passed\n");
+}
+
+void test4(){
+  const int N = 5;
+  complexe_double_t X[5]={{2,1},{0,3},{5,0},{3,-2},{4,0}};
+  complexe_double_t Y[5]={{0,1},{1,1},{3,2},{4,0},{4,-4}};
+  complexe_double_t alpha = {1,2};
+
+  mnblas_zaxpy(N, alpha, X,1, Y, 1);
+
+  for (int i=0; i<5; i++){
+      printf("Y[%i].real = %f, Y[%i].imaginary = %fi\n",i,Y[i].real,i,Y[i].imaginary);
+  }
+
+    assert(Y[0].real == 0 && Y[0].imaginary == 6);
+    assert(Y[1].real == -5 && Y[1].imaginary == 4);
+    assert(Y[2].real == 8 && Y[2].imaginary == 12);
+    assert(Y[3].real == 11 && Y[3].imaginary == 4);
+    assert(Y[4].real == 8 && Y[4].imaginary == 4);
+
+    printf("test4 passed\n");
+}
 int main(){
   test1();
   test2();
-
-  printf("AXPY TESTS PASSED\n");
+  test3();
+  test4();
+  printf("\nAXPY TESTS PASSED\n");
 }
