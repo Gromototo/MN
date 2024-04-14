@@ -4,59 +4,40 @@
 void mnblas_saxpy(const int N, const float alpha, const float *X,
                  const int incX, float *Y, const int incY)
 {
-    int j = 0;
-    float NewX[N];
-    
     #pragma omp parallel for 
-        for (int i=0; i<N*incX;i+=incX)
+        for (int i=0; i<N;i++)
         {
-            NewX[i] = alpha*X[i];
-            Y[j] = Y[j] + NewX[i];
-            j+=incY;
+            Y[i*incY] += alpha*X[i*incX];
         }
-
 }
 
 void mnblas_daxpy(const int N, const double alpha, const double *X,
                  const int incX, double *Y, const int incY)
 {
-    int j = 0;
-    double NewX[N];
-
     #pragma omp parallel for
-        for (int i=0; i<N*incX;i+=incX)
+        for (int i=0; i<N;i++)
         {
-            NewX[i] = alpha*X[i];
-            Y[j] = Y[j] + NewX[i];
-            j+=incY;
+            Y[i*incY] += alpha*X[i*incX];
         }
 }
 
 void mnblas_caxpy(const int N, const complexe_float_t alpha, const complexe_float_t *X,
                  const int incX, complexe_float_t *Y, const int incY)
 {
-    int j = 0;
-    complexe_float_t NewX[N];
-
     #pragma omp parallel for
-        for (int i=0; i<N*incX;i+=incX)
+        for (int i=0; i<N;i++)
         {
-            NewX[i] = mult_complexe_float(alpha,X[i]);
-            Y[j] = add_complexe_float(Y[j], NewX[i]);
-            j+=incY;
+            Y[i*incY] = add_complexe_float(Y[i*incY],mult_complexe_float(alpha,X[i*incX]));
+
         }
 }
 void mnblas_zaxpy(const int N, const complexe_double_t alpha, const complexe_double_t *X,
                  const int incX, complexe_double_t *Y, const int incY)
 {
-    int j = 0;
-    complexe_double_t NewX[N];
 
     #pragma omp parallel for
-        for (int i=0; i<N*incX;i+=incX)
+        for (int i=0; i<N;i++)
         {
-            NewX[i] = mult_complexe_double(alpha,X[i]);
-            Y[j] = add_complexe_double(Y[j], NewX[i]);
-            j+=incY;
+            Y[i*incY] = add_complexe_double(Y[i*incY],mult_complexe_double(alpha,X[i*incX]));
         }
 }
