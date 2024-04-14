@@ -60,7 +60,7 @@ test_copy.o: test_copy.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_copy.c
 
 test_gemv: test_gemv.o $(LIBST)
-	gcc -o test_gemv test_gemv.o  $(OPTIONS_LINK_STATIC)
+	gcc -o test_gemv test_gemv.o flop.o $(OPTIONS_LINK_STATIC)
 
 test_gemv.o: test_gemv.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_gemv.c
@@ -78,7 +78,7 @@ test_axpy.o: test_axpy.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_axpy.c
 
 test_gemm: test_gemm.o $(LIBST)
-	gcc -o test_gemm test_gemm.o  $(OPTIONS_LINK_STATIC)
+	gcc -o test_gemm test_gemm.o flop.o $(OPTIONS_LINK_STATIC)
 
 test_gemm.o: test_gemm.c $(INC_DIR)/mnblas.h
 	gcc $(OPTIONS_COMPIL) -c test_gemm.c

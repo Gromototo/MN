@@ -69,7 +69,7 @@ void mncblas_cgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                 ((complexe_float_t*) C)[n + m * N] = mult_complexe_float(*((complexe_float_t*) beta), ((complexe_float_t*)C)[n + m * N]);
                 ((complexe_float_t*) C)[n + m * N] = add_complexe_float(value, ((complexe_float_t*) C)[n + m * N]);
 
-                printf("value %f %f \n", value.real, value.imaginary);
+                //printf("value %f %f \n", value.real, value.imaginary);
             }
         }
 }
@@ -92,7 +92,7 @@ void mncblas_zgemm(MNCBLAS_LAYOUT layout, MNCBLAS_TRANSPOSE TransA,
                 ((complexe_double_t*) C)[n + m * N] = mult_complexe_double(*((complexe_double_t*) beta), ((complexe_double_t*)C)[n + m * N]);
                 ((complexe_double_t*) C)[n + m * N] = add_complexe_double(value, ((complexe_double_t*) C)[n + m * N]);
 
-                printf("value %f %f \n", value.real, value.imaginary);
+                //printf("value %f %f \n", value.real, value.imaginary);
             }
         }
   

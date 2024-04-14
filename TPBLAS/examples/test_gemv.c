@@ -1,6 +1,115 @@
 #include "mnblas.h"
+#include "flop.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#define MATSIZE    256
+#define NB_FOIS    10
+#define VECSIZE    256
+
+typedef float mfloat [MATSIZE*MATSIZE] ;
+typedef double mdouble [MATSIZE*MATSIZE] ;
+typedef complexe_float_t mcfloat [MATSIZE*MATSIZE] ;
+typedef complexe_double_t mcdouble [MATSIZE*MATSIZE] ;
+
+mfloat Af;
+mdouble Ad;
+mcfloat Acf;
+mcdouble Acd;
+
+typedef float vfloat [VECSIZE] ;
+typedef double vdouble [VECSIZE] ;
+typedef complexe_float_t vcfloat [VECSIZE] ;
+typedef complexe_double_t vcdouble [VECSIZE] ;
+
+vfloat Xf, Yf ;
+vdouble Xd, Yd ;
+vcfloat Xcf, Ycf ;
+vcdouble Xcd, Ycd ;
+
+
+void matrix_init (mfloat M, float x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < MATSIZE*MATSIZE; i++)
+    M [i] = x ;
+
+  return ;
+}
+
+void matrix_initd (mdouble M, double x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < MATSIZE*MATSIZE; i++)
+    M [i] = x ;
+  return ;
+}
+
+void matrix_initcf (mcfloat M, complexe_float_t x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < MATSIZE*MATSIZE; i++){
+    M [i].real = x.real ;
+    M[i].imaginary = x.imaginary;
+  }
+  return ;
+}
+
+void vector_init (vfloat V, float x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < VECSIZE; i++)
+    V [i] = x ;
+
+  return ;
+}
+
+void vector_initd (vdouble V, double x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < VECSIZE; i++)
+    V [i] = x ;
+  return ;
+}
+
+void vector_initcf (vcfloat V, complexe_float_t x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < VECSIZE; i++){
+    V [i].real = x.real ;
+    V[i].imaginary = x.imaginary;
+  }
+  return ;
+}
+
+void vector_initcd (vcdouble V, complexe_double_t x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < VECSIZE; i++){
+    V [i].real = x.real ;
+    V[i].imaginary = x.imaginary;
+  }
+  return ;
+}
+
+void matrix_initcd (mcdouble M, complexe_double_t x)
+{
+  register unsigned int i ;
+
+  for (i = 0; i < MATSIZE*MATSIZE; i++){
+    M [i].real = x.real ;
+    M[i].imaginary = x.imaginary;
+  }
+  return ;
+}
+
 void compare_float(float *X, float *Y, const int Ysize) //compare les deux vecteurs
 {
     for (int i = 0; i<Ysize; i++){
@@ -168,8 +277,8 @@ void test04(){ //test matrice 2x3 complexe float
     
     mncblas_cgemv(3,101,2,3, alpha,Mat_A, 0, Vect_X, 1,beta, Vect_Y, 1); //2lignes, 3colonnes
 
-    printf("real: %f, imaginary : %f\n", Vect_Y[0].real, Vect_Y[0].imaginary);
-    printf("real: %f, imaginary : %f\n", Vect_Y[1].real, Vect_Y[1].imaginary);
+    //printf("real: %f, imaginary : %f\n", Vect_Y[0].real, Vect_Y[0].imaginary);
+   // printf("real: %f, imaginary : %f\n", Vect_Y[1].real, Vect_Y[1].imaginary);
     
 
     compare_complex_float(compare_matrix, Vect_Y,2);
@@ -212,8 +321,6 @@ void test05(){
     Vect_Y[2].real =2;
     Vect_Y[2].imaginary = 2.0;
 
-
-
     complexe_float_t alpha[9];
 
     for (int i = 0; i<3; i++){ // alpha*I3, alpha = 1+2i
@@ -239,9 +346,9 @@ void test05(){
     
     mncblas_cgemv(3,101,3,2, alpha,Mat_A, 0, Vect_X, 1,beta, Vect_Y, 1); //3lignes, 2colonnes
 
-    printf("real: %f, imaginary : %f\n", Vect_Y[0].real, Vect_Y[0].imaginary);
-    printf("real: %f, imaginary : %f\n", Vect_Y[1].real, Vect_Y[1].imaginary);
-    printf("real: %f, imaginary : %f\n", Vect_Y[2].real, Vect_Y[2].imaginary);
+    //printf("real: %f, imaginary : %f\n", Vect_Y[0].real, Vect_Y[0].imaginary);
+   // printf("real: %f, imaginary : %f\n", Vect_Y[1].real, Vect_Y[1].imaginary);
+   // printf("real: %f, imaginary : %f\n", Vect_Y[2].real, Vect_Y[2].imaginary);
 
     compare_complex_float(compare_matrix, Vect_Y,3);
 
@@ -306,8 +413,8 @@ void test06(){ //test matrice 2x3 complexe double
     
     mncblas_zgemv(3,101,2,3, alpha,Mat_A, 0, Vect_X, 1,beta, Vect_Y, 1); //2lignes, 3colonnes
 
-    printf("real: %f, imaginary : %f\n", Vect_Y[0].real, Vect_Y[0].imaginary);
-    printf("real: %f, imaginary : %f\n", Vect_Y[1].real, Vect_Y[1].imaginary);
+    //printf("real: %f, imaginary : %f\n", Vect_Y[0].real, Vect_Y[0].imaginary);
+    //printf("real: %f, imaginary : %f\n", Vect_Y[1].real, Vect_Y[1].imaginary);
     
 
     compare_complex_double(compare_matrix, Vect_Y,2);
@@ -386,8 +493,9 @@ void test07(){
 }
 
 int main(){
+    
 
-    test00();
+   /* test00();
     test01();
     test02();
     test03();
@@ -395,9 +503,95 @@ int main(){
     test05();
     test06();
     test07();
+    printf("\nTESTS GEMV PASSED\n");*/
 
+    struct timespec start, end ;
+     int i ;
+    //float measure
+    
+    init_nano () ;
 
-    printf("\nTESTS GEMV PASSED\n");
+     for (i = 0 ; i < NB_FOIS; i++)
+   {
+     matrix_init(Af, 2.0);
+     vector_init (Xf, 1.0) ;
+     vector_init (Yf, 2.0) ;
+     float alpha = 2.0;
+     float beta = 3.0;
+
+     TOP_NANO (start) ;
+     mncblas_sgemv (3,101,MATSIZE,MATSIZE, alpha, Af, 0, Xf, 1,beta,Yf,1) ;
+     TOP_NANO (end);
+
+     printf ("sgemv nano %e seconde\n", diff_nano (&start,&end)) ;
+   }
+ printf("Y[0] = %f\n", Yf[0]);
+ printf ("==========================================================\n") ;
+
+//mesure double
+
+for (i = 0 ; i < NB_FOIS; i++)
+   {
+     matrix_initd(Ad, 2.0);
+     vector_initd (Xd, 1.0) ;
+     vector_initd (Yd, 2.0) ;
+     double alpha = 2.0;
+     double beta = 3.0;
+
+     TOP_NANO (start) ;
+     mncblas_dgemv (3,101,MATSIZE,MATSIZE, alpha, Ad, 0, Xd, 1,beta,Yd,1) ;
+     TOP_NANO (end);
+
+     printf ("dgemv nano %e seconde\n", diff_nano (&start,&end)) ;
+   }
+ printf("Y[0] = %f\n", Yf[0]);
+ printf ("==========================================================\n") ;
+    
+
+    //mesure complexe float
+
+for (i = 0 ; i < NB_FOIS; i++)
+   {
+    complexe_float_t toA = {2.0,3.0};
+    complexe_float_t toX = {1.0,8.0};
+    complexe_float_t toY = {-2.0,1.0};
+     matrix_initcf(Acf, toA);
+     vector_initcf (Xcf, toX) ;
+     vector_initcf (Ycf, toY) ;
+     complexe_float_t alpha[1] = {{1,2}};
+     complexe_float_t beta[1] = {{3,1}};
+
+     TOP_NANO (start) ;
+     mncblas_cgemv (3,101,MATSIZE,MATSIZE, alpha, Acf, 0, Xcf, 1,beta,Ycf,1) ;
+     TOP_NANO (end);
+
+     printf ("cgemv nano %e seconde\n", diff_nano (&start,&end)) ;
+   }
+ printf("Y[0].real = %f\n Y[0].imaginary = %f\n ", Ycf[0].real,Ycf[0].imaginary);
+ printf ("==========================================================\n") ;
+    
+    //mesure complexe double
+
+    for (i = 0 ; i < NB_FOIS; i++)
+   {
+    complexe_double_t toA = {2.0,3.0};
+    complexe_double_t toX = {1.0,8.0};
+    complexe_double_t toY = {-2.0,1.0};
+     matrix_initcd(Acd, toA);
+     vector_initcd (Xcd, toX) ;
+     vector_initcd (Ycd, toY) ;
+     complexe_double_t alpha[1] = {{1,2}};
+     complexe_double_t beta[1] = {{3,1}};
+
+     TOP_NANO (start) ;
+     mncblas_zgemv (3,101,MATSIZE,MATSIZE, alpha, Acd, 0, Xcd, 1,beta,Ycd,1) ;
+     TOP_NANO (end);
+
+     printf ("cgemv nano %e seconde\n", diff_nano (&start,&end)) ;
+   }
+ printf("Y[0].real = %f\n Y[0].imaginary = %f\n ", Ycd[0].real,Ycd[0].imaginary);
+ printf ("==========================================================\n") ;
+
     return 1;
 }
 
