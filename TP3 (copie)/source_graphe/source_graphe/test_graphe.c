@@ -179,11 +179,20 @@ int main (int argc, char **argv)
   chemin.debut = 1;
   chemin.nb_arcs = 5;
 
-
   assert(eulerien(g, chemin) == 1);
   assert(hamiltonien(g, chemin) == 1);
   assert(longueur(g, chemin) == 20);
   printf("TEST 4 OK\n");
 
+  assert(graphe_hamiltonien(g) == 1);
+  printf("TEST 5 OK\n");
+
+
+  lire_graphe ("data/gr3", &g) ;
+  assert(graphe_hamiltonien(g) == 0);
+
+
+  lire_graphe ("data/gr4", &g) ;
+  assert(graphe_hamiltonien(g) == 0);
 
 }

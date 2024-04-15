@@ -103,3 +103,5 @@ int distance (pgraphe_t g, int x, int y);
 int excentricite (pgraphe_t g, int n);
 int diametre( pgraphe_t g);
 int longueur(pgraphe_t g, chemin_t c);
+
+int g_hamiltonien_rec( pgraphe_t g, chemin_t c, psommet_t s);
