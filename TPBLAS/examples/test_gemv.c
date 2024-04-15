@@ -27,6 +27,7 @@ vdouble Xd, Yd ;
 vcfloat Xcf, Ycf ;
 vcdouble Xcd, Ycd ;
 
+double somme_temps = 0 ;
 
 void matrix_init (mfloat M, float x)
 {
@@ -523,10 +524,17 @@ int main(){
      mncblas_sgemv (3,101,MATSIZE,MATSIZE, alpha, Af, 0, Xf, 1,beta,Yf,1) ;
      TOP_NANO (end);
 
-     printf ("sgemv nano %e seconde\n", diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("sgemv nano %e seconde\n", temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
  printf("Y[0] = %f\n", Yf[0]);
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
 //mesure double
 
@@ -542,10 +550,17 @@ for (i = 0 ; i < NB_FOIS; i++)
      mncblas_dgemv (3,101,MATSIZE,MATSIZE, alpha, Ad, 0, Xd, 1,beta,Yd,1) ;
      TOP_NANO (end);
 
-     printf ("dgemv nano %e seconde\n", diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("dgemv nano %e seconde\n", temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
  printf("Y[0] = %f\n", Yf[0]);
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
     
 
     //mesure complexe float
@@ -565,10 +580,17 @@ for (i = 0 ; i < NB_FOIS; i++)
      mncblas_cgemv (0,0,MATSIZE,MATSIZE, alpha, Acf, 0, Xcf, 0,beta,Ycf,0) ;
      TOP_NANO (end);
 
-     printf ("cgemv nano %e seconde\n", diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("cgemv nano %e seconde\n", temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
  printf("Y[0].real = %f\n Y[0].imaginary = %f\n ", Ycf[0].real,Ycf[0].imaginary);
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
     
     //mesure complexe double
 
@@ -587,10 +609,17 @@ for (i = 0 ; i < NB_FOIS; i++)
      mncblas_zgemv (3,101,MATSIZE,MATSIZE, alpha, Acd, 0, Xcd, 1,beta,Ycd,1) ;
      TOP_NANO (end);
 
-     printf ("zgemv nano %e seconde\n", diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("zgemv nano %e seconde\n", temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
  printf("Y[0].real = %f\n Y[0].imaginary = %f\n ", Ycd[0].real,Ycd[0].imaginary);
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
     return 1;
 }

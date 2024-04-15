@@ -18,6 +18,8 @@ vdouble vec3, vec4;
 vcfloat vec5,vec6;
 vcdouble vec7, vec8;
 
+double somme_temps = 0 ;
+
 void vector_init (vfloat V, float x)
 {
   register unsigned int i ;
@@ -165,11 +167,18 @@ int main(){
         mnblas_saxpy (VECSIZE, alphaf, vec1, 1, vec2, 1) ;
      TOP_NANO (end);
 
-     printf ("saxpy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf("saxpy nano %d %e seconde\n", 2*VECSIZE, temps);
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
   printf ("Y[0] attendu = %f ; Y[0] obtenu = %f \n",5.0, vec2[0]) ;
   printf ("==========================================================\n") ;
+  printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
 
  for (i = 0 ; i < NB_FOIS; i++)
@@ -181,11 +190,19 @@ int main(){
         mnblas_daxpy (VECSIZE, alphad, vec3, 1, vec4, 1) ;
      TOP_NANO (end);
 
-     printf ("daxpy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("daxpy nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
   printf ("Y[0] attendu = %lf ; Y[0] obtenu = %lf \n", 4.0, vec4[0]) ;
   printf ("==========================================================\n") ;
+  printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+
+  somme_temps=0;
 
   
   
@@ -201,14 +218,22 @@ int main(){
         mnblas_caxpy(VECSIZE, alphacf, vec5, 1, vec6, 1) ;
      TOP_NANO (end);
 
-     printf ("caxpy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("caxpy nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
   printf ("Y[0].reel attendu = %f ; Y[0].reel obtenu = %f \n", 5.0, vec8[0].real) ;
-  printf ("Y[0].imaginaire attendu = %f ; Y[0].imaginaire obtenu = %f \n", 2.0, vec6[0].imaginary ) ;
+  printf ("Y[0].imaginaire attendu = %f ; Y[0].imaginaire obtenu = %f \n", 2.0, vec6[0].imaginary );
   printf ("==========================================================\n") ;
+  printf("moyenne des temps : %e\n\n", somme_temps/8.0);
 
-   complexe_double_t x2 ={1.0,0.0};
+  somme_temps=0;
+
+    complexe_double_t x2 ={1.0,0.0};
     complexe_double_t y2 ={2.0,0.0};
   for (i = 0 ; i < NB_FOIS; i++)
    {
@@ -220,11 +245,17 @@ int main(){
         mnblas_zaxpy(VECSIZE, alphacd, vec7, 1, vec8, 1);
      TOP_NANO (end);
 
-     printf ("zaxpy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("zaxpy nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
 
    }
 
   printf ("Y[0].reel attendu = %lf ; Y[0].reel obtenu = %lf \n", 5.0,vec8[0].real );
   printf ("Y[0].imaginaire attendu = %lf ; Y[0].imaginaire obtenu = %lf \n", 2.0,vec8[0].imaginary );
   printf ("==========================================================\n") ;
+  printf("moyenne des temps : %e\n\n", somme_temps/8.0);
 }

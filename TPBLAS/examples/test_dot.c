@@ -20,6 +20,8 @@ vdouble vec3, vec4;
 vcfloat vec5,vec6;
 vcdouble vec7, vec8;
 
+double somme_temps = 0 ;
+
 void vector_init (vfloat V, float x)
 {
   register unsigned int i ;
@@ -94,11 +96,18 @@ int main (int argc, char **argv)
         res = mncblas_sdot (VECSIZE, vec1, 1, vec2, 1) ;
      TOP_NANO (end);
 
-     printf ("sdot nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("sdot nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
  printf ("res = %f\n", res) ;
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
 
  for (i = 0 ; i < NB_FOIS; i++)
@@ -110,11 +119,18 @@ int main (int argc, char **argv)
         resd = mncblas_ddot (VECSIZE, vec3, 1, vec4, 1) ;
      TOP_NANO (end);
 
-     printf ("ddot nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("ddot nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
  printf ("resd = %f\n", resd) ;
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
   
   
@@ -132,11 +148,18 @@ int main (int argc, char **argv)
         rescf = dotu[0];
      TOP_NANO (end);
 
-     printf ("cdotu_sub nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+      double temps = diff_nano (&start,&end);
+
+     printf ("cdotu_sub nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
  printf ("rescf.reel = %f\n,rescf.imaginaire = %f\n", rescf.real, rescf.imaginary) ;
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
    complexe_double_t x2 ={1.0,0.0};
     complexe_double_t y2 ={2.0,0.0};
@@ -152,10 +175,16 @@ int main (int argc, char **argv)
         rescd = dotuz[0];
      TOP_NANO (end);
 
-     printf ("zdotu_sub nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("zdotu_sub nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
  printf ("rescd.reel = %f\n,rescd.imaginaire = %f\n", rescd.real, rescd.imaginary) ;
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
 
 }

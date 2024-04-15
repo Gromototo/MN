@@ -16,6 +16,8 @@ mdouble Ad,Bd,Cd;
 mcfloat Acf,Bcf,Ccf;
 mcdouble Acd,Bcd,Ccd;
 
+double somme_temps = 0 ;
+
 
 void matrix_init (mfloat M, float x)
 {
@@ -206,10 +208,17 @@ int main(){
      mncblas_sgemm (0,0,0,MATSIZE,MATSIZE,MATSIZE, alpha, Af, 0, Bf, 0,beta,Cf,0) ;
      TOP_NANO (end);
 
-     printf ("sgemm nano %e seconde\n", diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("sgemm nano %e seconde\n", temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
  printf("Cf[0] = %f\n", Cf[0]);
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
 //mesure double
 
@@ -225,10 +234,17 @@ for (i = 0 ; i < NB_FOIS; i++)
      mncblas_dgemm (0,0,0,MATSIZE,MATSIZE,MATSIZE, alpha, Ad, 0, Bd, 0,beta,Cd,0) ;
      TOP_NANO (end);
 
-     printf ("dgemm nano %e seconde\n", diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("dgemm nano %e seconde\n", temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
  printf("Cd[0] = %f\n", Cd[0]);
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
     
 
     //mesure complexe float
@@ -248,10 +264,17 @@ for (i = 0 ; i < NB_FOIS; i++)
      mncblas_cgemm (0,0,0,MATSIZE,MATSIZE,MATSIZE, alpha, Acf, 0, Bcf, 0,beta,Ccf,0) ;
      TOP_NANO (end);
 
-     printf ("cgemm nano %e seconde\n", diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("cgemm nano %e seconde\n", temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
  printf("Ccf[0].reel = %f\n Ccf[0].imaginaire = %f\n ", Ccf[0].real, Ccf[0].imaginary);
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
     
 
     //mesure complexe double
@@ -271,10 +294,16 @@ for (i = 0 ; i < NB_FOIS; i++)
      mncblas_zgemm (0,0,0,MATSIZE,MATSIZE,MATSIZE, alpha, Acd, 0, Bcd, 0,beta,Ccd,0) ;
      TOP_NANO (end);
 
-     printf ("zgemm nano %e seconde\n", diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("zgemm nano %e seconde\n", temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
  printf("Ccd[0].reel = %f\n Ccd[0].imaginaire = %f\n ", Ccd[0].real, Ccd[0].imaginary);
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
 
   return 1;
 }

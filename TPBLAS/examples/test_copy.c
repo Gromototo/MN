@@ -18,6 +18,8 @@ vdouble vec3, vec4;
 vcfloat vec5,vec6;
 vcdouble vec7, vec8;
 
+double somme_temps = 0 ;
+
 void vector_init (vfloat V, float x)
 {
   register unsigned int i ;
@@ -215,11 +217,18 @@ int main(){
 
      v3f = vec2[0];
 
-     printf ("scopy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+      double temps = diff_nano (&start,&end);
+
+     printf ("scopy nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
  printf ("X[0] = %f ; Y[0] avant fonction = %f ; Y[0] maintenant = %f\n", v1f,v2f,v3f) ;
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
 
  for (i = 0 ; i < NB_FOIS; i++)
@@ -234,11 +243,18 @@ int main(){
 
      v3d = vec4[0];
 
-     printf ("dcopy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+     double temps = diff_nano (&start,&end);
+
+     printf ("dcopy nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
  printf ("X[0] = %lf ; Y[0] avant fonction = %lf ; Y[0] maintenant = %lf\n", v1d,v2d,v3d) ;
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
   
   
@@ -256,12 +272,19 @@ int main(){
 
       v3cf = vec6[0];
 
-     printf ("ccopy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+      double temps = diff_nano (&start,&end);
+
+     printf ("ccopy nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
    }
 
  printf ("X[0].reel = %f ;      Y[0].reel avant fonction = %f ;     Y[0].reel maintenant = %f\n", v1cf.real,v2cf.real,v3cf.real) ;
  printf ("X[0].imaginaire = %f; Y[0].imaginaire avant fonction = %f; Y[0].imaginaire maintenant = %f\n", v1cf.imaginary,v2cf.imaginary,v3cf.imaginary) ;
  printf ("==========================================================\n") ;
+ printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
    complexe_double_t x2 ={1.0,0.0};
     complexe_double_t y2 ={2.0,0.0};
@@ -275,7 +298,12 @@ int main(){
         mncblas_zcopy(VECSIZE, vec7, 1, vec8, 1);
      TOP_NANO (end);
 
-     printf ("zcopy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
+      double temps = diff_nano (&start,&end);
+
+     printf ("zcopy nano %d %e seconde\n", 2*VECSIZE, temps) ;
+     if (i>=2){
+      somme_temps += temps;
+     }
 
      v3cd = vec8[0];
    }
@@ -283,5 +311,7 @@ int main(){
 printf ("X[0].reel = %lf ;      Y[0].reel avant fonction = %lf ;     Y[0].reel maintenant = %lf\n", v1cd.real,v2cd.real,v3cd.real) ;
 printf ("X[0].imaginaire = %lf; Y[0].imaginaire avant fonction = %lf; Y[0].imaginaire maintenant = %lf\n", v1cd.imaginary,v2cd.imaginary,v3cd.imaginary) ;
 printf ("==========================================================\n") ;
+printf("moyenne des temps : %e\n\n", somme_temps/8.0);
+  somme_temps=0;
 
 }
