@@ -180,19 +180,48 @@ int main (int argc, char **argv)
   chemin.nb_arcs = 5;
 
   assert(eulerien(g, chemin) == 1);
-  assert(hamiltonien(g, chemin) == 1);
+  assert(hamiltonien(g, chemin) == 0);
   assert(longueur(g, chemin) == 20);
   printf("TEST 4 OK\n");
 
-  assert(graphe_hamiltonien(g) == 1);
+
+  lire_graphe ("data/gr2", &g) ;
+
+  //arc 3 vers 2
+  arc2->arc_suivant = NULL;
+  arc2->poids = 2;
+  arc2->dest = chercher_sommet(g, 2);
+  
+  //arc 1 vers 3
+  arc1->poids = 5;
+  arc1->arc_suivant = arc2;
+  arc1->dest = chercher_sommet(g, 3);
+
+  // (1->3)(3->2)
+  chemin.arcs = arc1;
+  chemin.debut = 1;
+  chemin.nb_arcs = 2;
+
+  lire_graphe ("data/gr2", &g) ;
+  assert(hamiltonien(g, chemin) == 1);
   printf("TEST 5 OK\n");
+
+
+  lire_graphe ("data/gr2", &g) ;
+  assert(graphe_hamiltonien(g) == 1);
+  printf("TEST 6 OK\n");
 
 
   lire_graphe ("data/gr3", &g) ;
   assert(graphe_hamiltonien(g) == 0);
+  printf("TEST 7 OK\n");
 
 
   lire_graphe ("data/gr4", &g) ;
-  assert(graphe_hamiltonien(g) == 0);
+  assert(graphe_hamiltonien(g) == 1);
+  printf("TEST 8 OK\n");
 
+  lire_graphe ("data/gr0", &g) ;
+  assert(graphe_hamiltonien(g) == 1);
+  printf("TEST 9 OK\n");
 }

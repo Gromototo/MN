@@ -567,7 +567,9 @@ int graphe_eulerien(pgraphe_t g)
   */
 int hamiltonien(pgraphe_t g, chemin_t c)
 {
-  int nb_arcs_differents = 0;
+
+  printf("\n check hamiltonien : ");
+  int nb_sommets_differents = 0;
 
   int visites[nombre_sommets(g)];
   int last_label_index = -1;
@@ -576,26 +578,36 @@ int hamiltonien(pgraphe_t g, chemin_t c)
 
   int debut = c.debut;
   last_label_index = visiter(debut, visites, last_label_index);
-
+  nb_sommets_differents++;
+  
   while (arc_courant != NULL)
   {
-
     int fin = arc_courant->dest->label;
 
-    if (!deja_visite(debut, visites, last_label_index))
+    printf(" %d -> %d | ", debut, fin);
+
+    if (!deja_visite(fin, visites, last_label_index))
     {
-      last_label_index = visiter(debut, visites, last_label_index);
-      nb_arcs_differents++;
+      last_label_index = visiter(fin, visites, last_label_index);
+      nb_sommets_differents++;
+    }
+    else {
+      printf("\n là \n");
+      return 0;
     }
 
+    printf(" arc suivant ");
     arc_courant = arc_courant->arc_suivant;
     debut = fin;
   }
 
-  if (nb_arcs_differents == nombre_sommets(g))
-  {
+  if (nb_sommets_differents == nombre_sommets(g))
+  { 
+    printf(" HAMILTONIEN \n");
     return 1;
   }
+
+    printf(" PAS HAMILTONIEN \n");
 
   return 0;
 }
@@ -714,8 +726,7 @@ int g_hamiltonien_rec(pgraphe_t g, chemin_t c, psommet_t s)
         return 1;
       }
 
-      // free(c_copie.arcs);
-      // free(arc_courant_copie);
+      free(c_copie.arcs);
     }
 
     arc_courant = arc_courant->arc_suivant;
@@ -724,6 +735,10 @@ int g_hamiltonien_rec(pgraphe_t g, chemin_t c, psommet_t s)
   return 0;
 }
 
+/*
+
+  Un graphe hamiltonien est un graphe qui contient un chemin hamiltonien
+*/
 int graphe_hamiltonien(pgraphe_t g)
 {
 
