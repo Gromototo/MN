@@ -495,7 +495,7 @@ void test07(){
 int main(){
     
 
-   /* test00();
+    /*test00();
     test01();
     test02();
     test03();
@@ -562,7 +562,7 @@ for (i = 0 ; i < NB_FOIS; i++)
      complexe_float_t beta[1] = {{3,1}};
 
      TOP_NANO (start) ;
-     mncblas_cgemv (3,101,MATSIZE,MATSIZE, alpha, Acf, 0, Xcf, 1,beta,Ycf,1) ;
+     mncblas_cgemv (0,0,MATSIZE,MATSIZE, alpha, Acf, 0, Xcf, 0,beta,Ycf,0) ;
      TOP_NANO (end);
 
      printf ("cgemv nano %e seconde\n", diff_nano (&start,&end)) ;
@@ -587,7 +587,7 @@ for (i = 0 ; i < NB_FOIS; i++)
      mncblas_zgemv (3,101,MATSIZE,MATSIZE, alpha, Acd, 0, Xcd, 1,beta,Ycd,1) ;
      TOP_NANO (end);
 
-     printf ("cgemv nano %e seconde\n", diff_nano (&start,&end)) ;
+     printf ("zgemv nano %e seconde\n", diff_nano (&start,&end)) ;
    }
  printf("Y[0].real = %f\n Y[0].imaginary = %f\n ", Ycd[0].real,Ycd[0].imaginary);
  printf ("==========================================================\n") ;
