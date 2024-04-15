@@ -42,7 +42,6 @@ void mncblas_cgemv(MNCBLAS_LAYOUT layout,
                  const void *X, const int incX, const void *beta,
                  void *Y, const int incY)
                  {
-                  int i,j;
                   complexe_float_t* cY = (complexe_float_t*) Y;
                   complexe_float_t* cX = (complexe_float_t*) X;
                   complexe_float_t* cA = (complexe_float_t*) A;
@@ -50,9 +49,9 @@ void mncblas_cgemv(MNCBLAS_LAYOUT layout,
                   complexe_float_t* cbeta = (complexe_float_t*) beta;
 
                     #pragma omp parallel for
-                    for (i = 0; i<M; i++){
+                    for (int i = 0; i<M; i++){
                         cY[i] = mult_complexe_float(cY[i], cbeta[0]);
-                        for (j = 0; j<N; j++){
+                        for (int j = 0; j<N; j++){
                             cY[i] = add_complexe_float(cY[i],mult_complexe_float(mult_complexe_float(calpha[0],cA[i*N+j]),cX[j]));
                         }
                     }
@@ -64,7 +63,7 @@ void mncblas_zgemv(MNCBLAS_LAYOUT layout,
                  const void *X, const int incX, const void *beta,
                  void *Y, const int incY)
                  {
-                    int i,j;
+                  
                   complexe_double_t* cY = (complexe_double_t*) Y;
                   complexe_double_t* cX = (complexe_double_t*) X;
                   complexe_double_t* cA = (complexe_double_t*) A;
@@ -72,9 +71,9 @@ void mncblas_zgemv(MNCBLAS_LAYOUT layout,
                   complexe_double_t* cbeta = (complexe_double_t*) beta;
 
                     #pragma omp parallel for
-                    for (i = 0; i<M; i++){
+                    for (int i = 0; i<M; i++){
                         cY[i] = mult_complexe_double(cY[i], cbeta[0]);
-                        for (j = 0; j<N; j++){
+                        for (int j = 0; j<N; j++){
                             cY[i] = add_complexe_double(cY[i],mult_complexe_double(mult_complexe_double(calpha[0],cA[i*N+j]),cX[j]));
                         }
                     }
