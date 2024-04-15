@@ -148,10 +148,10 @@ int main(){
   struct timespec start, end ;
  
  int i ;
- float v1f,v2f,v3f,alphaf;
- double v1d,v2d,v3d,alphad;
- complexe_float_t v1cf,v2cf,v3cf,alphacf;
- complexe_double_t v1cd,v2cd,v3cd,alphacd;
+ float alphaf;
+ double alphad;
+ complexe_float_t alphacf;
+ complexe_double_t alphacd;
 
  init_nano () ;
  
@@ -160,18 +160,15 @@ int main(){
      vector_init (vec1, 1.0) ;
      vector_init (vec2, 2.0) ;
      alphaf = 3;
-     v1f = vec1[0];
-     v2f = vec2[0];
-     TOP_NANO (start) ;
-        mncblas_saxpy (VECSIZE, alphaf, vec1, 1, vec2, 1) ;
-     TOP_NANO (end);
 
-     v3f = vec2[0];
+     TOP_NANO (start) ;
+        mnblas_saxpy (VECSIZE, alphaf, vec1, 1, vec2, 1) ;
+     TOP_NANO (end);
 
      printf ("saxpy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
    }
 
-  printf ("Y[0] attendu = %f ; Y[0] obtenu = %f \n", v1f*alphaf+v2f,v3f) ;
+  printf ("Y[0] attendu = %f ; Y[0] obtenu = %f \n",5.0, vec2[0]) ;
   printf ("==========================================================\n") ;
 
 
@@ -179,19 +176,15 @@ int main(){
    {
      vector_initd (vec3, 1.0) ;
      vector_initd (vec4, 2.0) ;
-     v1d = vec3[0];
-     v2d = vec4[0];
      alphad=2;
      TOP_NANO (start) ;
-        mncblas_daxpy (VECSIZE, alphad, vec3, 1, vec4, 1) ;
+        mnblas_daxpy (VECSIZE, alphad, vec3, 1, vec4, 1) ;
      TOP_NANO (end);
-
-     v3d = vec4[0];
 
      printf ("daxpy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
    }
 
-  printf ("Y[0] attendu = %lf ; Y[0] obtenu = %lf \n", v1d*alphad+v2d,v3d) ;
+  printf ("Y[0] attendu = %lf ; Y[0] obtenu = %lf \n", 4.0, vec4[0]) ;
   printf ("==========================================================\n") ;
 
   
@@ -202,21 +195,17 @@ int main(){
    {
      vector_initcf (vec5,x) ;
      vector_initcf (vec6,y) ;
-     v1cf = vec5[0];
-     v2cf = vec6[0];
      alphacd.real = 3;
      alphacd.imaginary = 2;
      TOP_NANO (start) ;
-        mncblas_caxpy(VECSIZE, alphacf, vec5, 1, vec6, 1) ;
+        mnblas_caxpy(VECSIZE, alphacf, vec5, 1, vec6, 1) ;
      TOP_NANO (end);
-
-      v3cf = vec6[0];
 
      printf ("caxpy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
    }
 
-  printf ("Y[0].reel attendu = %f ; Y[0].reel obtenu = %f \n", 5, v3cf.real) ;
-  printf ("Y[0].imaginaire attendu = %f ; Y[0].imaginaire obtenu = %f \n", 2, v3cf.imaginary ) ;
+  printf ("Y[0].reel attendu = %f ; Y[0].reel obtenu = %f \n", 5.0, vec8[0].real) ;
+  printf ("Y[0].imaginaire attendu = %f ; Y[0].imaginaire obtenu = %f \n", 2.0, vec6[0].imaginary ) ;
   printf ("==========================================================\n") ;
 
    complexe_double_t x2 ={1.0,0.0};
@@ -225,20 +214,17 @@ int main(){
    {
      vector_initcd (vec7,x2) ;
      vector_initcd (vec8,y2) ;
-     v1cd = vec7[0];
-     v2cd = vec8[0];
      alphacd.real = 3;
      alphacd.imaginary = 2;
      TOP_NANO (start);
-        mncblas_zaxpy(VECSIZE, alphacd, vec7, 1, vec8, 1);
+        mnblas_zaxpy(VECSIZE, alphacd, vec7, 1, vec8, 1);
      TOP_NANO (end);
 
      printf ("zaxpy nano %d %e seconde\n", 2*VECSIZE, diff_nano (&start,&end)) ;
 
-     v3cd = vec8[0];
    }
 
-  printf ("Y[0].reel attendu = %lf ; Y[0].reel obtenu = %lf \n", 5,v3cd.real );
-  printf ("Y[0].imaginaire attendu = %lf ; Y[0].imaginaire obtenu = %lf \n", 2,v3cd.imaginary );
+  printf ("Y[0].reel attendu = %lf ; Y[0].reel obtenu = %lf \n", 5.0,vec8[0].real );
+  printf ("Y[0].imaginaire attendu = %lf ; Y[0].imaginaire obtenu = %lf \n", 2.0,vec8[0].imaginary );
   printf ("==========================================================\n") ;
 }
