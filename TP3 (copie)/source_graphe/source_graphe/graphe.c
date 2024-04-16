@@ -579,7 +579,7 @@ int hamiltonien(pgraphe_t g, chemin_t c)
   int debut = c.debut;
   last_label_index = visiter(debut, visites, last_label_index);
   nb_sommets_differents++;
-  
+
   while (arc_courant != NULL)
   {
     int fin = arc_courant->dest->label;
@@ -591,7 +591,8 @@ int hamiltonien(pgraphe_t g, chemin_t c)
       last_label_index = visiter(fin, visites, last_label_index);
       nb_sommets_differents++;
     }
-    else {
+    else
+    {
       printf("\n là \n");
       return 0;
     }
@@ -602,12 +603,12 @@ int hamiltonien(pgraphe_t g, chemin_t c)
   }
 
   if (nb_sommets_differents == nombre_sommets(g))
-  { 
+  {
     printf(" HAMILTONIEN \n");
     return 1;
   }
 
-    printf(" PAS HAMILTONIEN \n");
+  printf(" PAS HAMILTONIEN \n");
 
   return 0;
 }
@@ -626,6 +627,7 @@ int chemin_par_sommet(chemin_t c, int s_label)
 
   while (arc_courant != NULL)
   {
+
     if (arc_courant->dest->label == s_label)
     {
       return 1;
@@ -766,14 +768,85 @@ int longueur(pgraphe_t g, chemin_t c)
   return longueur;
 }
 
+int min(int x, int y) { return x < y ? x : y; }
+/*
+  Fonction qui renvoie la longueur du plus petit chemin  vers y à partir du chemin c.
+*/
+int distance_rec(pgraphe_t g, chemin_t c, psommet_t s, int y, int *visites, int last_label_index)
+{
+
+  int l_min = INT_MAX;
+
+  if (chemin_par_sommet(c, y) == 1)
+  {
+    printf("\n chemin trouvé de longueur %d \n", longueur(g, c));
+    return longueur(g, c);
+  }
+
+  if (deja_visite(s->label, visites, last_label_index))
+  {
+    return INT_MAX;
+  }
+  else
+  {
+    last_label_index = visiter(s->label, visites, last_label_index);
+  }
+
+  parc_t arc_courant = s->liste_arcs;
+  while (arc_courant != NULL)
+  {
+
+    printf("\n arc de %d à %d", s->label, arc_courant->dest->label);
+
+    // Créer un nouvel arc pour le chemin
+    parc_t arc_courant_copie = (parc_t)malloc(sizeof(arc_t));
+    arc_courant_copie->poids = arc_courant->poids;
+    arc_courant_copie->dest = arc_courant->dest;
+    arc_courant_copie->arc_suivant = NULL;
+
+    // on ajoute le nouvel arc au chemin après l'avoir copié
+    chemin_t c_copie = copier_chemin(c);
+
+    parc_t dernier_arc = c_copie.arcs;
+    if (dernier_arc != NULL)
+    {
+      while (dernier_arc->arc_suivant != NULL)
+      {
+        dernier_arc = dernier_arc->arc_suivant;
+      }
+
+      dernier_arc->arc_suivant = arc_courant_copie;
+      c_copie.nb_arcs++;
+    }
+    else
+    {
+      c_copie.arcs = arc_courant_copie;
+      c_copie.nb_arcs++;
+    }
+
+    l_min = min(l_min, distance_rec(g, c_copie, arc_courant->dest, y, visites, last_label_index));
+
+    free(c_copie.arcs);
+
+    arc_courant = arc_courant->arc_suivant;
+  }
+
+  return l_min;
+}
+
 int distance(pgraphe_t g, int x, int y)
 {
 
-  /*
-  algo_dijkstra(g) va nous fournir un chemin et on calcule le poids de ses arcs ?
-  */
+  chemin_t c;
 
-  return 1;
+  c.debut = x;
+  c.nb_arcs = 0;
+  c.arcs = NULL;
+
+  int *visites = (int *)malloc(nombre_sommets(g) * sizeof(int));
+  int last_label_index = -1;
+
+  return distance_rec(g, c, chercher_sommet(g, x), y, visites, last_label_index);
 }
 
 /*

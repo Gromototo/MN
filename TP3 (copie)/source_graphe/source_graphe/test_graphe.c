@@ -224,4 +224,16 @@ int main (int argc, char **argv)
   lire_graphe ("data/gr0", &g) ;
   assert(graphe_hamiltonien(g) == 1);
   printf("TEST 9 OK\n");
+
+  lire_graphe ("data/gr1", &g) ;
+
+  assert(distance(g, 1,2) == 1);
+  assert(distance(g, 2,3) == 2);
+
+
+  lire_graphe ("data/gr4", &g) ;
+  assert(distance(g, 1,5) == 7);
+
+  printf("TEST 10 OK\n");
+
 }
