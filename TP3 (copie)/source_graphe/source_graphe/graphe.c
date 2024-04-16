@@ -568,7 +568,6 @@ int graphe_eulerien(pgraphe_t g)
 int hamiltonien(pgraphe_t g, chemin_t c)
 {
 
-  printf("\n check hamiltonien : ");
   int nb_sommets_differents = 0;
 
   int visites[nombre_sommets(g)];
@@ -584,8 +583,6 @@ int hamiltonien(pgraphe_t g, chemin_t c)
   {
     int fin = arc_courant->dest->label;
 
-    printf(" %d -> %d | ", debut, fin);
-
     if (!deja_visite(fin, visites, last_label_index))
     {
       last_label_index = visiter(fin, visites, last_label_index);
@@ -593,22 +590,17 @@ int hamiltonien(pgraphe_t g, chemin_t c)
     }
     else
     {
-      printf("\n là \n");
       return 0;
     }
 
-    printf(" arc suivant ");
     arc_courant = arc_courant->arc_suivant;
     debut = fin;
   }
 
   if (nb_sommets_differents == nombre_sommets(g))
   {
-    printf(" HAMILTONIEN \n");
     return 1;
   }
-
-  printf(" PAS HAMILTONIEN \n");
 
   return 0;
 }
@@ -689,13 +681,11 @@ int g_hamiltonien_rec(pgraphe_t g, chemin_t c, psommet_t s)
   while (arc_courant != NULL)
   {
 
-    printf("\n arc de %d à %d", s->label, arc_courant->dest->label);
 
     // if chemin ne passe pas par (arc_courant->dest->label)
     if (chemin_par_sommet(c, arc_courant->dest->label) == 0)
     {
 
-      printf("pas encore vu \n");
 
       // Créer un nouvel arc pour le chemin
       parc_t arc_courant_copie = (parc_t)malloc(sizeof(arc_t));
@@ -779,7 +769,6 @@ int distance_rec(pgraphe_t g, chemin_t c, psommet_t s, int y, int *visites, int 
 
   if (chemin_par_sommet(c, y) == 1)
   {
-    printf("\n chemin trouvé de longueur %d \n", longueur(g, c));
     return longueur(g, c);
   }
 
@@ -796,7 +785,6 @@ int distance_rec(pgraphe_t g, chemin_t c, psommet_t s, int y, int *visites, int 
   while (arc_courant != NULL)
   {
 
-    printf("\n arc de %d à %d", s->label, arc_courant->dest->label);
 
     // Créer un nouvel arc pour le chemin
     parc_t arc_courant_copie = (parc_t)malloc(sizeof(arc_t));
@@ -845,6 +833,7 @@ int distance(pgraphe_t g, int x, int y)
 
   int *visites = (int *)malloc(nombre_sommets(g) * sizeof(int));
   int last_label_index = -1;
+
 
   return distance_rec(g, c, chercher_sommet(g, x), y, visites, last_label_index);
 }

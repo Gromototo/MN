@@ -234,6 +234,24 @@ int main (int argc, char **argv)
   lire_graphe ("data/gr4", &g) ;
   assert(distance(g, 1,5) == 7);
 
+  lire_graphe ("data/gr2", &g) ;
+
+
+  //c'est fait exprès mais voir avec MEHAUT si c'est ce qu'il attend.
+  //sinon plonger dans la fonction distance et distance_rec pour trouver
+  //ce qu'il faut modifier pour que ça marche comme lehaut le veut
+  assert(distance(g, 1, 1)==0);
+
+  //cas particulier ça n'est pas une erreur, plus rapide de prendre détour que direct
+  assert(distance(g, 1, 2)==7);
+  assert(excentricite(g, 1) == 7);
+  assert(diametre(g) == 8);
+
   printf("TEST 10 OK\n");
+
+
+  printf("\n  ALL TESTS PASSED  \n");
+  printf("\nIn God we trust. The rest we test.\n");
+
 
 }

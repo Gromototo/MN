@@ -4,7 +4,7 @@ int eulerien ( pgraphe_t g , chemin_t c ); POSITIVE NEGATIVE
 int hamiltonien ( pgraphe_t g , chemin_t c ); POSITIVE  NEGATIVE
 int graphe_eulerien ( pgraphe_t g); POSITIVE NEGATIVE
 int graphe_hamiltonien( pgraphe_t g); POSITIVE NEGATIVE
-int distance (pgraphe_t g, int x, int y); TODO
-int excentricite (pgraphe_t g, int n); TODO
-int diametre( pgraphe_t g); TODO
+int distance (pgraphe_t g, int x, int y); DONE
+int excentricite (pgraphe_t g, int n); DONE
+int diametre( pgraphe_t g); DONE
 int longueur(pgraphe_t g, chemin_t c); DONE
