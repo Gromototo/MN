@@ -12,9 +12,11 @@ typedef struct s
   int        label ; // label du sommet
   parc_t     liste_arcs ; // arcs sortants du sommet
   struct s   *sommet_suivant ; // sommet suivant dans le graphe
+  struct s   *sommet_precedent ; // sommet suivant dans le graphe
   int        couleur ; // couleur du sommet
-  
+  bool       traite;
   int        poids_dijkstra ;
+  struct a   *arc_precedent;
 
 } sommet_t, *psommet_t ;
 
@@ -26,14 +28,13 @@ typedef struct s
 
 typedef struct a {
   
-                  int         poids ; // poids de l arc
+                  int         poids ; // poids de l arcarc_suivant
                   psommet_t   dest ;  // pointeur sommet destinataire
                   struct a *  arc_suivant ; // arc suivant
 
 
                   //ON PEUT L'ENLEVER NON ?
                   bool traite ;       //true si arc deja explorés, false sinon
-  
 } arc_t, *parc_t ;
 
 /*
