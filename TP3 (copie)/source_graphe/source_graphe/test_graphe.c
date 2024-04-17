@@ -226,6 +226,24 @@ int main (int argc, char **argv)
 
   printf("TEST 10 OK\n");
 
+  /*lire_graphe ("data/gr3", &g) ; //seg fault dans cette fonction ??
+  printf("Test de l'algo de Dijkstra\n");
+  algo_dijkstra(g,1);
+  assert(g->poids_dijkstra==0);
+  imprimer_chemin_dijkstra(g);
+  
+
+  lire_graphe ("data/gr4", &g) ;
+  algo_dijkstra(g,1);
+  assert(g->poids_dijkstra==0);
+  imprimer_chemin_dijkstra(g);
+
+  lire_graphe ("data/gr6", &g) ;
+  algo_dijkstra(g,1);
+  assert(g->poids_dijkstra==0);
+  imprimer_chemin_dijkstra(g);
+
+  printf("TEST 11 OK\n");*/
 
   printf("\n  ALL TESTS PASSED  \n");
   printf("\nIn God we trust. The rest we test.\n");

@@ -65,7 +65,15 @@ void afficher_graphe_profondeur (pgraphe_t g, int r) ;
 
 void afficher_graphe_largeur (pgraphe_t g, int r) ;
 
+psommet_t* to_array(pgraphe_t g, psommet_t* tab);
+
+psommet_t extraire_min_liste(int* nb_sommets, psommet_t sommets[*nb_sommets]);
+
+void boucle_dijkstra (pgraphe_t g, int nb_sommets_tot, psommet_t a_visiter[nb_sommets_tot]);
+
 void algo_dijkstra (pgraphe_t g, int r) ;
+
+void imprimer_chemin_dijkstra(pgraphe_t g);
 
 
 
