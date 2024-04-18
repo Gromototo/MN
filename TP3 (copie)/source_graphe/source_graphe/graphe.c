@@ -304,7 +304,7 @@ psommet_t extraire_min_liste(int* nb_sommets, psommet_t sommets[*nb_sommets]){
     }
   }
   if (min==INT_MAX){
-    printf("Graphe impossible à parcourir en entier");
+    printf("Graphe impossible à parcourir en entier\n"); //Ici
     return NULL;
   }
   psommet_t nv_liste[*nb_sommets - 1];
@@ -359,7 +359,7 @@ void algo_dijkstra (pgraphe_t g, int r)
   }
   psommet_t tab[nombre_sommets(g)];
   psommet_t* sommets = to_array(g,tab);
-  while (sommets != NULL){
+  while ((*sommets)->sommet_suivant != NULL){
     (*sommets)->traite=false;
     (*sommets)->poids_dijkstra=INT_MAX;
     (*sommets) = (*sommets)->sommet_suivant;
